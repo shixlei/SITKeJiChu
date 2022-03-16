@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改项目文件')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-file-edit" th:object="${kjcProjectFile}">
+            <input id="fileId" name="fileId" th:field="*{fileId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目编号：</label>
+                <div class="col-sm-8">
+                    <input id="projectBianhao" name="projectBianhao" th:field="*{projectBianhao}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">文件类型：</label>
+                <div class="col-sm-8">
+                    <select id="fileType" name="fileType" class="form-control m-b" th:with="type=${@dict.getType('kjc_project_file')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{fileType}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">文件路径：</label>
+                <div class="col-sm-8">
+                    <input readonly id="filePath" name="filePath" th:field="*{filePath}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目文件名：</label>
+                <div class="col-sm-8">
+                    <input id="fileName" name="fileName" th:field="*{fileName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目文件：</label>
+                <div class="col-sm-8">
+                    <input id="file" name="file" type="file">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">上传用户：</label>
+                <div class="col-sm-8">
+                    <input disabled name="uploaduser" th:field="*{uploaduser}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">上传时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input disabled name="uploadtime" th:value="${#dates.format(kjcProjectFile.uploadtime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "project/file";
+        $("#form-file-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                edit();
+            }
+        }
+
+        function edit() {
+            let exist = false;
+            let projectBianhao = $("#projectBianhao").val();
+            $.ajax({
+                url: prefix + "/judgeExist?no=" + projectBianhao,
+                type: "get",
+                dataType: "json",
+                async: false,
+                success: function (result){
+                    if (result.code == 0){
+                        exist = true;
+                    }
+                }
+            });
+
+            if (!exist){
+                $.modal.alertWarning("项目编号不存在!");
+                return ;
+            }
+
+            var formData = new FormData();
+            // if ($('#filePath')[0].files[0] == null) {
+            //     $.modal.alertWarning("请先选择文件路径");
+            //     return false;
+            // }
+            formData.append("fileId", $("#fileId").val())
+            formData.append("projectBianhao", projectBianhao);
+            formData.append("fileType",$("#fileType").val());
+            //formData.append('fileName', $("#fileName").val());
+            formData.append('filePath', $("#filePath").val());
+            if ($('#file').val()){
+                formData.append('file', $('#file')[0].files[0]);
+            }
+            $.ajax({
+                url: prefix + "/edit",
+                type: 'post',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function(result) {
+                    $.operate.successCallback(result);
+                }
+            });
+        }
+
+        $("input[name='uploadtime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

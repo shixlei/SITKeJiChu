@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kejichu.project.mapper.KjcJixiaoMapper">
+    
+    <resultMap type="KjcJixiao" id="KjcJixiaoResult">
+        <result property="jixiaoId"    column="jixiao_id"    />
+        <result property="projectBianhao"    column="project_bianhao"    />
+        <result property="jixiaoMoney"    column="jixiao_money"    />
+        <result property="jixiaoLixiangMoney"    column="jixiao_lixiang_money"    />
+        <result property="jixiaoLixiangDate"    column="jixiao_lixiang_date"    />
+        <result property="jixiaoJietiMoney"    column="jixiao_jieti_money"    />
+        <result property="jixiaoJietiDate"    column="jixiao_jieti_date"    />
+        <result property="jixiaoWeifafang"    column="jixiao_weifafang"    />
+    </resultMap>
+
+    <sql id="selectKjcJixiaoVo">
+        select jixiao_id, project_bianhao, jixiao_money, jixiao_lixiang_money, jixiao_lixiang_date, jixiao_jieti_money, jixiao_jieti_date, jixiao_weifafang from kjc_jixiao
+    </sql>
+
+    <select id="selectKjcJixiaoList" parameterType="KjcJixiao" resultMap="KjcJixiaoResult">
+        <include refid="selectKjcJixiaoVo"/>
+        <where>  
+            <if test="projectBianhao != null  and projectBianhao != ''"> and project_bianhao like concat('%', #{projectBianhao}, '%')</if>
+            <if test="jixiaoMoney != null "> and jixiao_money = #{jixiaoMoney}</if>
+            <if test="jixiaoLixiangMoney != null "> and jixiao_lixiang_money = #{jixiaoLixiangMoney}</if>
+            <if test="jixiaoLixiangDate != null "> and jixiao_lixiang_date = #{jixiaoLixiangDate}</if>
+            <if test="jixiaoJietiMoney != null "> and jixiao_jieti_money = #{jixiaoJietiMoney}</if>
+            <if test="jixiaoJietiDate != null "> and jixiao_jieti_date = #{jixiaoJietiDate}</if>
+            <if test="jixiaoWeifafang != null "> and jixiao_weifafang = #{jixiaoWeifafang}</if>
+        </where>
+    </select>
+    
+    <select id="selectKjcJixiaoByJixiaoId" parameterType="Long" resultMap="KjcJixiaoResult">
+        <include refid="selectKjcJixiaoVo"/>
+        where jixiao_id = #{jixiaoId}
+    </select>
+
+    <select id="selectKjcJixiaoByprojectBianhao" parameterType="String" resultMap="KjcJixiaoResult">
+        <include refid="selectKjcJixiaoVo"/>
+        where project_bianhao =  #{projectBianhao}
+    </select>
+
+
+    <insert id="insertKjcJixiao" parameterType="KjcJixiao" useGeneratedKeys="true" keyProperty="jixiaoId">
+        insert into kjc_jixiao
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao,</if>
+            <if test="jixiaoMoney != null">jixiao_money,</if>
+            <if test="jixiaoLixiangMoney != null">jixiao_lixiang_money,</if>
+            <if test="jixiaoLixiangDate != null">jixiao_lixiang_date,</if>
+            <if test="jixiaoJietiMoney != null">jixiao_jieti_money,</if>
+            <if test="jixiaoJietiDate != null">jixiao_jieti_date,</if>
+            <if test="jixiaoWeifafang != null">jixiao_weifafang,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
+            <if test="jixiaoMoney != null">#{jixiaoMoney},</if>
+            <if test="jixiaoLixiangMoney != null">#{jixiaoLixiangMoney},</if>
+            <if test="jixiaoLixiangDate != null">#{jixiaoLixiangDate},</if>
+            <if test="jixiaoJietiMoney != null">#{jixiaoJietiMoney},</if>
+            <if test="jixiaoJietiDate != null">#{jixiaoJietiDate},</if>
+            <if test="jixiaoWeifafang != null">#{jixiaoWeifafang},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKjcJixiao" parameterType="KjcJixiao">
+        update kjc_jixiao
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao = #{projectBianhao},</if>
+            <if test="jixiaoMoney != null">jixiao_money = #{jixiaoMoney},</if>
+            <if test="jixiaoLixiangMoney != null">jixiao_lixiang_money = #{jixiaoLixiangMoney},</if>
+            <if test="jixiaoLixiangDate != null">jixiao_lixiang_date = #{jixiaoLixiangDate},</if>
+            <if test="jixiaoJietiMoney != null">jixiao_jieti_money = #{jixiaoJietiMoney},</if>
+            <if test="jixiaoJietiDate != null">jixiao_jieti_date = #{jixiaoJietiDate},</if>
+            <if test="jixiaoWeifafang != null">jixiao_weifafang = #{jixiaoWeifafang},</if>
+        </trim>
+        where jixiao_id = #{jixiaoId}
+    </update>
+
+    <delete id="deleteKjcJixiaoByJixiaoId" parameterType="Long">
+        delete from kjc_jixiao where jixiao_id = #{jixiaoId}
+    </delete>
+
+    <delete id="deleteKjcJixiaoByJixiaoIds" parameterType="String">
+        delete from kjc_jixiao where jixiao_id in 
+        <foreach item="jixiaoId" collection="array" open="(" separator="," close=")">
+            #{jixiaoId}
+        </foreach>
+    </delete>
+
+</mapper>

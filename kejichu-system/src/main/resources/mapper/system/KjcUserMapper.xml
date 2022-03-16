@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kejichu.system.mapper.KjcUserMapper">
+    
+    <resultMap type="KjcUser" id="KjcUserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="userJsgh"    column="user_jsgh"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userCollege"    column="user_college"    />
+        <result property="userBirth"    column="user_birth"    />
+        <result property="userZhicheng"    column="user_zhicheng"    />
+        <result property="userSchool"    column="user_school"    />
+        <result property="userDegree"    column="user_degree"    />
+        <result property="userStatus"    column="user_status"    />
+    </resultMap>
+
+    <sql id="selectKjcUserVo">
+        select user_id, user_jsgh, user_name, user_college, user_birth, user_zhicheng, user_school, user_degree, user_status from kjc_user
+    </sql>
+
+    <select id="selectKjcUserList" parameterType="KjcUser" resultMap="KjcUserResult">
+        <include refid="selectKjcUserVo"/>
+        <where>  
+            <if test="userJsgh != null "> and user_jsgh = #{userJsgh}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="userCollege != null  and userCollege != ''"> and user_college like concat('%', #{userCollege}, '%')</if>
+            <if test="userBirth != null "> and user_birth = #{userBirth}</if>
+            <if test="userZhicheng != null  and userZhicheng != ''"> and user_zhicheng = #{userZhicheng}</if>
+            <if test="userSchool != null  and userSchool != ''"> and user_school like concat('%', #{userSchool}, '%')</if>
+            <if test="userDegree != null  and userDegree != ''"> and user_degree = #{userDegree}</if>
+            <if test="userStatus != null  and userStatus != ''"> and user_status = #{userStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectKjcUserByUserId" parameterType="Long" resultMap="KjcUserResult">
+        <include refid="selectKjcUserVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertKjcUser" parameterType="KjcUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into kjc_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userJsgh != null">user_jsgh,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="userCollege != null">user_college,</if>
+            <if test="userBirth != null">user_birth,</if>
+            <if test="userZhicheng != null">user_zhicheng,</if>
+            <if test="userSchool != null">user_school,</if>
+            <if test="userDegree != null">user_degree,</if>
+            <if test="userStatus != null and userStatus != ''">user_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userJsgh != null">#{userJsgh},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="userCollege != null">#{userCollege},</if>
+            <if test="userBirth != null">#{userBirth},</if>
+            <if test="userZhicheng != null">#{userZhicheng},</if>
+            <if test="userSchool != null">#{userSchool},</if>
+            <if test="userDegree != null">#{userDegree},</if>
+            <if test="userStatus != null and userStatus != ''">#{userStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKjcUser" parameterType="KjcUser">
+        update kjc_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userJsgh != null">user_jsgh = #{userJsgh},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="userCollege != null">user_college = #{userCollege},</if>
+            <if test="userBirth != null">user_birth = #{userBirth},</if>
+            <if test="userZhicheng != null">user_zhicheng = #{userZhicheng},</if>
+            <if test="userSchool != null">user_school = #{userSchool},</if>
+            <if test="userDegree != null">user_degree = #{userDegree},</if>
+            <if test="userStatus != null and userStatus != ''">user_status = #{userStatus},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteKjcUserByUserId" parameterType="Long">
+        delete from kjc_user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteKjcUserByUserIds" parameterType="String">
+        delete from kjc_user where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+</mapper>

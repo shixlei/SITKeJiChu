@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kejichu.project.mapper.KjcProjectEditMapper">
+    
+    <resultMap type="KjcProjectEdit" id="KjcProjectEditResult">
+        <result property="projectEditId"    column="project_edit_id"    />
+        <result property="projectBianhao"    column="project_bianhao"    />
+        <result property="editName"    column="edit_name"    />
+        <result property="editTime"    column="edit_time"    />
+    </resultMap>
+
+    <sql id="selectKjcProjectEditVo">
+        select project_edit_id, project_bianhao, edit_name, edit_time from kjc_project_edit
+    </sql>
+
+    <select id="selectKjcProjectEditList" parameterType="KjcProjectEdit" resultMap="KjcProjectEditResult">
+        <include refid="selectKjcProjectEditVo"/>
+        <where>  
+            <if test="projectBianhao != null  and projectBianhao != ''"> and project_bianhao = #{projectBianhao}</if>
+            <if test="editName != null  and editName != ''"> and edit_name like concat('%', #{editName}, '%')</if>
+            <if test="editTime != null "> and edit_time like concat('%', #{editTime}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectKjcProjectEditByProjectEditId" parameterType="Long" resultMap="KjcProjectEditResult">
+        <include refid="selectKjcProjectEditVo"/>
+        where project_edit_id = #{projectEditId}
+    </select>
+        
+    <insert id="insertKjcProjectEdit" parameterType="KjcProjectEdit" useGeneratedKeys="true" keyProperty="projectEditId">
+        insert into kjc_project_edit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao,</if>
+            <if test="editName != null">edit_name,</if>
+            <if test="editTime != null">edit_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
+            <if test="editName != null">#{editName},</if>
+            <if test="editTime != null">#{editTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKjcProjectEdit" parameterType="KjcProjectEdit">
+        update kjc_project_edit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao = #{projectBianhao},</if>
+            <if test="editName != null">edit_name = #{editName},</if>
+            <if test="editTime != null">edit_time = #{editTime},</if>
+        </trim>
+        where project_edit_id = #{projectEditId}
+    </update>
+
+    <delete id="deleteKjcProjectEditByProjectEditId" parameterType="Long">
+        delete from kjc_project_edit where project_edit_id = #{projectEditId}
+    </delete>
+
+    <delete id="deleteKjcProjectEditByProjectEditIds" parameterType="String">
+        delete from kjc_project_edit where project_edit_id in 
+        <foreach item="projectEditId" collection="array" open="(" separator="," close=")">
+            #{projectEditId}
+        </foreach>
+    </delete>
+
+</mapper>

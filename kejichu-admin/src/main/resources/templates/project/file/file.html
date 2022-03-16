@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('项目文件列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>项目编号：</label>
+                                <input id="projectBianhao" type="text" name="projectBianhao"/>
+                            </li>
+                            <li>
+                                <label>文件类型：</label>
+                                <select name="fileType" th:with="type=${@dict.getType('kjc_project_file')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>文件路径：</label>
+                                <input type="text" name="filePath"/>
+                            </li>
+                            <li>
+                                <label>项目文件名：</label>
+                                <input type="text" name="fileName"/>
+                            </li>
+                            <li>
+                                <label>上传用户：</label>
+                                <input type="text" name="uploaduser"/>
+                            </li>
+                            <li>
+                                <label>上传时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择上传时间" name="uploadtime"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" id="search" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="project:file:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="project:file:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="project:file:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning multiple disabled" onclick="exportExcel()" shiro:hasPermission="project:file:export">
+                    <i class="fa fa-download"></i> 下载
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+
+    <script th:inline="javascript">
+        var prefix = ctx + "project/file";
+        var editFlag = [[${@permission.hasPermi('project:file:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('project:file:remove')}]];
+        var fileTypeDatas = [[${@dict.getType('kjc_project_file')}]];
+        var prefix = ctx + "project/file";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "项目文件",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'fileId',
+                    title: '文件id',
+                    visible: false
+                },
+                {
+                    field: 'projectBianhao',
+                    title: '项目编号'
+                },
+                {
+                    field: 'fileType',
+                    title: '文件类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(fileTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'filePath',
+                    title: '文件路径',
+                    visible: false
+                },
+                {
+                    field: 'fileName',
+                    title: '项目文件名'
+                },
+                {
+                    field: 'uploaduser',
+                    title: '上传用户'
+                },
+                {
+                    field: 'uploadtime',
+                    title: '上传时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.fileId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.fileId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+        //todo 导出功能待完成
+        function exportExcel2(){
+            console.log(prefix);
+            table.set();
+            var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+            if (rows.length == 0) {
+                $.modal.alertWarning("请至少选择一条记录");
+                return;
+            }
+            var data = { "ids": rows.join() };
+            $.modal.loading("正在导出数据，请稍后...");
+            window.location.href = ctx + prefix + "/exportExcel?ids=" + rows.join();
+        }
+
+        function exportExcel() {
+            var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+            var data = { "ids": rows.join() };
+            window.location.href = prefix + "/exportExcel?ids=" + rows.join();
+
+            // $.ajax({
+            //     url: prefix + "/exportExcel?ids=" + rows.join(),
+            //     async: false,
+            //     type: "post",
+            //     data: {
+            //     },
+            //     success: function (r) {
+            //         if (r.code == '0') {
+            //             // 下载创建好的excel
+            //             window.location.href = ctx + "common/download?fileName=" + r.msg + "&delete=true";
+            //         }
+            //     }
+            // })
+        }
+
+
+        $(document).ready(function (){
+            var url = location.search; //获取url中"?"符后的字串
+            if (url.indexOf("?") != -1) {    //判断是否有参数
+                var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+                strs = str.split("=");   //用等号进行分隔 （因为知道只有一个参数 所以直接用等号进分隔 如果有多个参数 要用&号分隔 再用等号进行分隔）
+                $("#projectBianhao").val(strs[1]);         //直接弹出第一个参数 （如果有多个参数 还要进行循环的）
+                $("#search").trigger('click');
+            }
+        });
+
+    </script>
+
+</body>
+</html>

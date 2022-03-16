@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kejichu.project.mapper.KjcGrantMapper">
+    
+    <resultMap type="KjcGrant" id="KjcGrantResult">
+        <result property="grantId"    column="grant_id"    />
+        <result property="projectBianhao"    column="project_bianhao"    />
+        <result property="grantPici"    column="grant_pici"    />
+        <result property="grantTime"    column="grant_time"    />
+        <result property="grantMoney"    column="grant_money"    />
+        <result property="jixiao"    column="jixiao"    />
+        <result property="guanlifei"    column="guanlifei"    />
+        <result property="grantLaiyuan"    column="grant_laiyuan"    />
+    </resultMap>
+
+    <sql id="selectKjcGrantVo">
+        select grant_id, project_bianhao, grant_pici, grant_time, grant_money, jixiao, guanlifei, grant_laiyuan from kjc_grant
+    </sql>
+
+    <select id="selectKjcGrantList" parameterType="KjcGrant" resultMap="KjcGrantResult">
+        <include refid="selectKjcGrantVo"/>
+        <where>  
+            <if test="projectBianhao != null  and projectBianhao != ''"> and project_bianhao like concat('%', #{projectBianhao}, '%')</if>
+            <if test="grantPici != null "> and grant_pici = #{grantPici}</if>
+            <if test="grantTime != null "> and grant_time = #{grantTime}</if>
+            <if test="grantMoney != null "> and grant_money = #{grantMoney}</if>
+            <if test="jixiao != null "> and jixiao = #{jixiao}</if>
+            <if test="guanlifei != null "> and guanlifei = #{guanlifei}</if>
+            <if test="grantLaiyuan != null  and grantLaiyuan != ''"> and grant_laiyuan like concat('%', #{grantLaiyuan}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectKjcGrantByGrantId" parameterType="Long" resultMap="KjcGrantResult">
+        <include refid="selectKjcGrantVo"/>
+        where grant_id = #{grantId}
+    </select>
+
+    <select id="selectKjcGrantByprojectBianhao" parameterType="String" resultMap="KjcGrantResult">
+        <include refid="selectKjcGrantVo"/>
+        where project_bianhao = #{projectBianhao}
+    </select>
+
+    <select id="selectKjcGrantBygrantPici" parameterType="Long" resultMap="KjcGrantResult">
+        <include refid="selectKjcGrantVo"/>
+        where grant_pici = #{grantPici}
+    </select>
+
+
+
+
+
+
+
+        
+    <insert id="insertKjcGrant" parameterType="KjcGrant" useGeneratedKeys="true" keyProperty="grantId">
+        insert into kjc_grant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao,</if>
+            <if test="grantPici != null">grant_pici,</if>
+            <if test="grantTime != null">grant_time,</if>
+            <if test="grantMoney != null">grant_money,</if>
+            <if test="jixiao != null">jixiao,</if>
+            <if test="guanlifei != null">guanlifei,</if>
+            <if test="grantLaiyuan != null">grant_laiyuan,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
+            <if test="grantPici != null">#{grantPici},</if>
+            <if test="grantTime != null">#{grantTime},</if>
+            <if test="grantMoney != null">#{grantMoney},</if>
+            <if test="jixiao != null">#{jixiao},</if>
+            <if test="guanlifei != null">#{guanlifei},</if>
+            <if test="grantLaiyuan != null">#{grantLaiyuan},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKjcGrant" parameterType="KjcGrant">
+        update kjc_grant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao = #{projectBianhao},</if>
+            <if test="grantPici != null">grant_pici = #{grantPici},</if>
+            <if test="grantTime != null">grant_time = #{grantTime},</if>
+            <if test="grantMoney != null">grant_money = #{grantMoney},</if>
+            <if test="jixiao != null">jixiao = #{jixiao},</if>
+            <if test="guanlifei != null">guanlifei = #{guanlifei},</if>
+            <if test="grantLaiyuan != null">grant_laiyuan = #{grantLaiyuan},</if>
+        </trim>
+        where grant_id = #{grantId}
+    </update>
+
+    <delete id="deleteKjcGrantByGrantId" parameterType="Long">
+        delete from kjc_grant where grant_id = #{grantId}
+    </delete>
+
+    <delete id="deleteKjcGrantByGrantIds" parameterType="String">
+        delete from kjc_grant where grant_id in 
+        <foreach item="grantId" collection="array" open="(" separator="," close=")">
+            #{grantId}
+        </foreach>
+    </delete>
+
+</mapper>

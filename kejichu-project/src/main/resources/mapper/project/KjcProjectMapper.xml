@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kejichu.project.mapper.KjcProjectMapper">
+    
+    <resultMap type="KjcProject" id="KjcProjectResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="projectBianhao"    column="project_bianhao"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="projectLeader"    column="project_leader"    />
+        <result property="userId"    column="user_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="projectGrant"    column="project_grant"    />
+        <result property="projectStatus"    column="project_status"    />
+        <result property="startData"    column="start_data"    />
+        <result property="endData"    column="end_data"    />
+        <result property="projectType"    column="project_type"    />
+        <result property="xiadadanwei"    column="xiadadanwei"    />
+        <result property="waibo"    column="waibo"    />
+        <result property="hezuofangshi"    column="hezuofangshi"    />
+        <result property="level"    column="level"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="yusuan"    column="yusuan"    />
+    </resultMap>
+
+    <sql id="selectKjcProjectVo">
+        select project_id, project_bianhao, project_name, project_leader, user_id, dept_name, project_grant, project_status, start_data, end_data, project_type, xiadadanwei, waibo, hezuofangshi, level, create_by, create_time, yusuan from kjc_project
+    </sql>
+
+    <select id="selectKjcProjectList2" parameterType="KjcProject" resultMap="KjcProjectResult">
+        <include refid="selectKjcProjectVo"/>
+        <where>  
+            <if test="projectBianhao != null  and projectBianhao != ''"> and project_bianhao = #{projectBianhao}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectLeader != null  and projectLeader != ''"> and project_leader = #{projectLeader}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
+            <if test="projectGrant != null "> and project_grant = #{projectGrant}</if>
+            <if test="projectStatus != null  and projectStatus != ''"> and project_status = #{projectStatus}</if>
+            <if test="startData != null "> and start_data like concat('%', #{startData}, '%')</if>
+            <if test="endData != null "> and end_data like concat('%', #{endData}, '%')</if>
+            <if test="projectType != null  and projectType != ''"> and project_type = #{projectType}</if>
+            <if test="xiadadanwei != null  and xiadadanwei != ''"> and xiadadanwei = #{xiadadanwei}</if>
+            <if test="waibo != null "> and waibo = #{waibo}</if>
+            <if test="hezuofangshi != null  and hezuofangshi != ''"> and hezuofangshi = #{hezuofangshi}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
+            <if test="yusuan != null "> and yusuan = #{yusuan}</if>
+        </where>
+    </select>
+
+    <select id="selectKjcProjectList" parameterType="KjcProject" resultType="com.kejichu.project.domain.KjcImportEntity">
+        SELECT p.project_bianhao projectBianhao,p.project_leader projectLeader,p.project_status projectStatus,j.jixiao_money jixiaoMoney,g.grant_pici grantPici,g.grant_time grantTime
+        FROM kjc_project p
+        LEFT JOIN kjc_jixiao j
+        ON j.project_bianhao = p.project_bianhao
+        LEFT JOIN kjc_grant g
+        ON g.project_bianhao = p.project_bianhao
+        <where>
+            <if test="projectId != null"> and p.project_id = ${projectId}</if>
+            <if test="projectBianhao != null  and projectBianhao != ''"> and p.project_bianhao = #{projectBianhao}</if>
+            <if test="projectName != null  and projectName != ''"> and p.project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectLeader != null  and projectLeader != ''"> and p.project_leader = #{projectLeader}</if>
+            <if test="userId != null "> and p.user_id = #{userId}</if>
+            <if test="deptName != null  and deptName != ''"> and p.dept_name like concat('%', #{deptName}, '%')</if>
+            <if test="projectGrant != null "> and p.project_grant = #{projectGrant}</if>
+            <if test="projectStatus != null  and projectStatus != ''"> and p.project_status = #{projectStatus}</if>
+            <if test="startData != null "> and p.start_data like concat('%', #{startData}, '%')</if>
+            <if test="endData != null "> and p.end_data like concat('%', #{endData}, '%')</if>
+            <if test="projectType != null  and projectType != ''"> and p.project_type = #{projectType}</if>
+            <if test="xiadadanwei != null  and xiadadanwei != ''"> and p.xiadadanwei = #{xiadadanwei}</if>
+            <if test="waibo != null "> and p.waibo = #{waibo}</if>
+            <if test="hezuofangshi != null  and hezuofangshi != ''"> and p.hezuofangshi = #{hezuofangshi}</if>
+            <if test="level != null  and level != ''"> and p.level = #{level}</if>
+            <if test="createBy != null  and createBy != ''"> and p.create_by = #{createBy}</if>
+            <if test="createTime != null "> and p.create_time like concat('%', #{createTime}, '%')</if>
+            <if test="yusuan != null "> and p.yusuan = #{yusuan}</if>
+        </where>
+    </select>
+    
+    <select id="selectKjcProjectByProjectId" parameterType="Long" resultMap="KjcProjectResult">
+        <include refid="selectKjcProjectVo"/>
+        where project_id = #{projectId}
+    </select>
+
+    <select id="selectKjcProjectByprojectBianhao" parameterType="String" resultMap="KjcProjectResult">
+        <include refid="selectKjcProjectVo"/>
+        where project_bianhao =#{projectBianhao}
+    </select>
+
+
+
+
+
+        
+    <insert id="insertKjcProject" parameterType="KjcProject" useGeneratedKeys="true" keyProperty="projectId">
+        insert into kjc_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="projectLeader != null and projectLeader != ''">project_leader,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="projectGrant != null">project_grant,</if>
+            <if test="projectStatus != null and projectStatus != ''">project_status,</if>
+            <if test="startData != null">start_data,</if>
+            <if test="endData != null">end_data,</if>
+            <if test="projectType != null">project_type,</if>
+            <if test="xiadadanwei != null">xiadadanwei,</if>
+            <if test="waibo != null">waibo,</if>
+            <if test="hezuofangshi != null">hezuofangshi,</if>
+            <if test="level != null">level,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="yusuan != null">yusuan,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="projectLeader != null and projectLeader != ''">#{projectLeader},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="projectGrant != null">#{projectGrant},</if>
+            <if test="projectStatus != null and projectStatus != ''">#{projectStatus},</if>
+            <if test="startData != null">#{startData},</if>
+            <if test="endData != null">#{endData},</if>
+            <if test="projectType != null">#{projectType},</if>
+            <if test="xiadadanwei != null">#{xiadadanwei},</if>
+            <if test="waibo != null">#{waibo},</if>
+            <if test="hezuofangshi != null">#{hezuofangshi},</if>
+            <if test="level != null">#{level},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="yusuan != null">#{yusuan},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKjcProject" parameterType="KjcProject">
+        update kjc_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectBianhao != null and projectBianhao != ''">project_bianhao = #{projectBianhao},</if>
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="projectLeader != null and projectLeader != ''">project_leader = #{projectLeader},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="projectGrant != null">project_grant = #{projectGrant},</if>
+            <if test="projectStatus != null and projectStatus != ''">project_status = #{projectStatus},</if>
+            <if test="startData != null">start_data = #{startData},</if>
+            <if test="endData != null">end_data = #{endData},</if>
+            <if test="projectType != null">project_type = #{projectType},</if>
+            <if test="xiadadanwei != null">xiadadanwei = #{xiadadanwei},</if>
+            <if test="waibo != null">waibo = #{waibo},</if>
+            <if test="hezuofangshi != null">hezuofangshi = #{hezuofangshi},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="yusuan != null">yusuan = #{yusuan},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="deleteKjcProjectByProjectId" parameterType="Long">
+        delete from kjc_project where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteKjcProjectByProjectIds" parameterType="String">
+        delete from kjc_project where project_id in 
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+
+</mapper>
