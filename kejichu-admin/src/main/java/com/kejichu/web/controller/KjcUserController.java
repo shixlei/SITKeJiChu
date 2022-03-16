@@ -1,6 +1,11 @@
 package com.kejichu.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.kejichu.common.core.text.Convert;
+import com.kejichu.common.utils.StringUtils;
+import com.kejichu.project.domain.KjcJixiao;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,7 +62,7 @@ public class KjcUserController extends BaseController
     /**
      * 导出教师信息列表
      */
-    @RequiresPermissions("system:teacher:export")
+/*    @RequiresPermissions("system:teacher:export")
     @Log(title = "教师信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -66,8 +71,32 @@ public class KjcUserController extends BaseController
         List<KjcUser> list = kjcUserService.selectKjcUserList(kjcUser);
         ExcelUtil<KjcUser> util = new ExcelUtil<KjcUser>(KjcUser.class);
         return util.exportExcel(list, "教师信息数据");
-    }
+    }*/
 
+
+    @RequiresPermissions("system:teacher:export")
+    @Log(title = "教师信息", businessType = BusinessType.EXPORT)
+    @PostMapping("/exportByIds")
+    @ResponseBody
+    public AjaxResult exportByIds(KjcUser kjcUser, String ids)
+    {
+        String[] strings = {};
+        if (StringUtils.isNotBlank(ids)){
+            String[] string = Convert.toStrArray(ids);
+            if (string.length > 0){
+                strings = string;
+            }
+        }
+        List<KjcUser> list = new ArrayList<>();
+        for (int i = 0; i < strings.length; i++) {
+            KjcUser kjcUser1 = kjcUserService.selectKjcUserByUserId(Long.valueOf(strings[i]));
+            if (kjcUser1 != null){
+                list.add(kjcUser1);
+            }
+        }
+        ExcelUtil<KjcUser> util = new ExcelUtil<KjcUser>(KjcUser.class);
+        return util.exportExcel(list, "绩效记录数据");
+    }
     /**
      * 新增教师信息
      */

@@ -73,7 +73,10 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:teacher:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:teacher:export">
+<!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:teacher:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>-->
+                <a class="btn btn-warning" onclick="exportExcel()" shiro:hasPermission="system:teacher:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -165,6 +168,30 @@
             };
             $.table.init(options);
         });
+        function exportExcel() {
+            var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+            var data = { "ids": rows.join() };
+            console.log(data);
+            //window.location.href = prefix + "/exportByIds?ids=" + rows.join();
+
+            $.ajax({
+                url: prefix + "/exportByIds?ids=" + rows.join(),
+                async: false,
+                type: "post",
+                data: {
+                },
+                success: function (r) {
+                    if (r.code == '0') {
+                        // 下载创建好的excel
+                        window.location.href = ctx + "common/download?fileName=" + r.msg + "&delete=true";
+                    }
+                }
+            })
+        }
+
+
+
+
     </script>
 </body>
 </html>
