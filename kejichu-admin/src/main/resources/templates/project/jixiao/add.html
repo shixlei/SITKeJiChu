@@ -102,6 +102,10 @@
                 layer.msg("绩效总金额≠立项+结题", {icon : 2, time: 1000});
                 return false;
             }
+            if (jixiaoMoney && jixiaoJietiMoney && (eval(jixiaoJietiMoney) > eval(jixiaoMoney))){
+                layer.msg("结题绩效金额>绩效总金额", {icon : 2, time: 1000});
+                return false;
+            }
             return true;
         }
         $("#jixiaoMoney").bind('input propertychange',function(){
