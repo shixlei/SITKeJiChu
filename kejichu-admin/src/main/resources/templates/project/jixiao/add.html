@@ -108,20 +108,36 @@
             }
             return true;
         }
+
         $("#jixiaoMoney").bind('input propertychange',function(){
 
+            $("#jixiaoLixiangMoney").bind('input propertychange',function(){
+                let jixiaoMoney = $("#jixiaoMoney").val();
+                let jixiaoLixiangMoney = $("#jixiaoLixiangMoney").val();
+                let jietiMoney = jixiaoMoney - jixiaoLixiangMoney;
+                $("#jixiaoJietiMoney").val(jietiMoney);
+
+                if (jixiaoMoney && jixiaoLixiangMoney && (eval(jixiaoLixiangMoney) > eval(jixiaoMoney))){
+                    //layer.msg("数据异常", {icon : 2, time: 1000});
+                }
+            });
+
         });
-        $("#jixiaoLixiangMoney").bind('input propertychange',function(){
+
+/*        $("#jixiaoLixiangMoney").bind('input propertychange',function(){
             let jixiaoMoney = $("#jixiaoMoney").val();
             let jixiaoLixiangMoney = $("#jixiaoLixiangMoney").val();
             if (jixiaoMoney && jixiaoLixiangMoney && (eval(jixiaoLixiangMoney) > eval(jixiaoMoney))){
                 //layer.msg("数据异常", {icon : 2, time: 1000});
             }
-        });
+        });*/
+
         $("#jixiaoJietiMoney").bind('input propertychange',function(){
             let jixiaoMoney = $("#jixiaoMoney").val();
             let jixiaoLixiangMoney = $("#jixiaoLixiangMoney").val();
             let jixiaoJietiMoney = $("#jixiaoJietiMoney").val();
+           // let val =  jixiaoMoney - jixiaoLixiangMoney;
+           // $('#jixiaoJietiMoney').val(val);
             if (jixiaoMoney && jixiaoLixiangMoney && jixiaoJietiMoney
                 && (eval(jixiaoMoney) != eval(jixiaoLixiangMoney) + eval(jixiaoJietiMoney))){
                 //layer.msg("数据异常", {icon : 2, time: 1000});
@@ -131,6 +147,7 @@
             let jixiaoWeifafang = $("#jixiaoWeifafang").val();
 
         });
+
 
     </script>
 </body>
