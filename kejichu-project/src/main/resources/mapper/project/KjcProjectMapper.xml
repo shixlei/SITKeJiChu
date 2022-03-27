@@ -50,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
             <if test="yusuan != null "> and yusuan = #{yusuan}</if>
         </where>
+        order by  start_data desc
     </select>
 
     <select id="selectKjcProjectList" parameterType="KjcProject" resultType="com.kejichu.project.domain.KjcImportEntity">
@@ -79,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null "> and p.create_time like concat('%', #{createTime}, '%')</if>
             <if test="yusuan != null "> and p.yusuan = #{yusuan}</if>
         </where>
+        order by  start_data
     </select>
     
     <select id="selectKjcProjectByProjectId" parameterType="Long" resultMap="KjcProjectResult">

@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="jixiaoJietiDate != null "> and jixiao_jieti_date = #{jixiaoJietiDate}</if>
             <if test="jixiaoWeifafang != null "> and jixiao_weifafang = #{jixiaoWeifafang}</if>
         </where>
+        order by  jixiao_lixiang_date desc
     </select>
     
     <select id="selectKjcJixiaoByJixiaoId" parameterType="Long" resultMap="KjcJixiaoResult">

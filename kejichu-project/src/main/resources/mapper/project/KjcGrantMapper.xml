@@ -30,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="guanlifei != null "> and guanlifei = #{guanlifei}</if>
             <if test="grantLaiyuan != null  and grantLaiyuan != ''"> and grant_laiyuan like concat('%', #{grantLaiyuan}, '%')</if>
         </where>
+        order by  grant_time desc
     </select>
     
     <select id="selectKjcGrantByGrantId" parameterType="Long" resultMap="KjcGrantResult">

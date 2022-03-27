@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="uploaduser != null  and uploaduser != ''"> and uploaduser = #{uploaduser}</if>
             <if test="uploadtime != null "> and uploadtime = #{uploadtime}</if>
         </where>
+        order by  uploadtime desc
     </select>
     
     <select id="selectKjcProjectFileByFileId" parameterType="Long" resultMap="KjcProjectFileResult">
