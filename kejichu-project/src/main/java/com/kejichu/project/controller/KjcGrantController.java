@@ -1,12 +1,14 @@
 package com.kejichu.project.controller;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import com.kejichu.common.annotation.DataSource;
 import com.kejichu.common.core.text.Convert;
 import com.kejichu.common.exception.ServiceException;
 import com.kejichu.common.utils.StringUtils;
-import com.kejichu.project.domain.KjcJixiao;
-import com.kejichu.project.service.impl.KjcProjectServiceImpl;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,7 @@ public class KjcGrantController extends BaseController
 
     @Autowired
     private IKjcGrantService kjcGrantService;
+
 
     @RequiresPermissions("project:grant:view")
     @GetMapping()
@@ -114,20 +117,17 @@ public class KjcGrantController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(KjcGrant kjcGrant) {
-        try{
+    try {
         KjcProject kjcProject = new KjcProject();
-
-        if (StringUtils.isNotEmpty(kjcGrant.getProjectBianhao())&&kjcGrant.getProjectBianhao().equals(kjcProject.getProjectBianhao())) {
-           return error("请输入正确的项目编号");
+        if (StringUtils.isNotEmpty(kjcGrant.getProjectBianhao()) && kjcGrant.getProjectBianhao().equals(kjcProject.getProjectBianhao())) {
+            throw new ServiceException("项目编号错误，项目可能不存在");
+        } else {
+            return toAjax(kjcGrantService.insertKjcGrant(kjcGrant));
         }
-
-        else { return toAjax(kjcGrantService.insertKjcGrant(kjcGrant)); }
+        } catch (Exception e) {
+            throw new ServiceException("项目编号错误或相同项目拨款批次重复");
         }
-
-        catch (Exception e){}
-        return AjaxResult.error("请输正确的项目编号");
     }
-
     /**
      *导入项目信息列表
      */

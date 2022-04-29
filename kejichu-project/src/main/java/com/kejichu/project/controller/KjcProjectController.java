@@ -244,8 +244,8 @@ public class KjcProjectController extends BaseController {
        try {
            return toAjax(kjcProjectService.deleteKjcProjectByProjectIds(ids));
        }catch (Exception e){
-
+           throw  new ServiceException("请先删除相应的拨款和绩效记录或项目文件！");
        }
-       throw  new ServiceException("请先删除相应的拨款和绩效记录或项目文件！");
+
     }
 }

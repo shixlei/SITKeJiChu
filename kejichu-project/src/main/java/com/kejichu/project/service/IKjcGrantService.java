@@ -19,6 +19,13 @@ public interface IKjcGrantService
      * @return 拨款记录
      */
     public KjcGrant selectKjcGrantByGrantId(Long grantId);
+    /**
+     * 查询拨款记录
+     *
+     * @param projectBianhao 拨款记录主键
+     * @return 拨款记录
+     */
+    public  KjcGrant selectKjcGrantByprojectBianhao(String projectBianhao);
 
     /**
      * 查询拨款记录列表

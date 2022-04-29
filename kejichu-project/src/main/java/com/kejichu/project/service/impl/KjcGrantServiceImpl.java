@@ -1,5 +1,7 @@
 package com.kejichu.project.service.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.kejichu.common.exception.ServiceException;
@@ -40,6 +42,19 @@ public class KjcGrantServiceImpl implements IKjcGrantService
     {
         return kjcGrantMapper.selectKjcGrantByGrantId(grantId);
     }
+    /**
+     * 查询拨款记录
+     *
+     * @param projectBianhao 拨款记录项目编号
+     * @return 拨款记录
+     */
+    @Override
+    public  KjcGrant selectKjcGrantByprojectBianhao(String projectBianhao){
+
+        return kjcGrantMapper.selectKjcGrantByprojectBianhao(projectBianhao);
+
+    }
+
 
     /**
      * 查询拨款记录列表
@@ -55,12 +70,27 @@ public class KjcGrantServiceImpl implements IKjcGrantService
 
     /**
      * 新增拨款记录
-     * 
      * @param kjcGrant 拨款记录
      * @return 结果
      */
     @Override
-    public int insertKjcGrant(KjcGrant kjcGrant) { return kjcGrantMapper.insertKjcGrant(kjcGrant); }
+    public int insertKjcGrant(KjcGrant kjcGrant) {
+        List<KjcGrant> kjcGrants = kjcGrantMapper.selectKjcGrantList(kjcGrant);
+        List<KjcGrant> list = new ArrayList<>();
+        for (KjcGrant kjcGrant1:kjcGrants){
+            if (kjcGrant1.getProjectBianhao()==kjcGrant.getProjectBianhao()){
+                list.add(kjcGrant1);
+            }
+        }
+        for(int i=0;i<list.size();i++){
+            if (kjcGrant.getGrantPici()==list.get(i).getGrantPici()){
+                throw new ServiceException("相同项目的拨款批次不能相同");
+            }
+        }
+
+
+         return kjcGrantMapper.insertKjcGrant(kjcGrant);
+    }
     /**
      * 修改拨款记录
      * @param kjcGrant 拨款记录
