@@ -82,12 +82,12 @@ public class KjcGrantServiceImpl implements IKjcGrantService
                 list.add(kjcGrant1);
             }
         }
+
         for(int i=0;i<list.size();i++){
             if (kjcGrant.getGrantPici()==list.get(i).getGrantPici()){
                 throw new ServiceException("相同项目的拨款批次不能相同");
             }
         }
-
 
          return kjcGrantMapper.insertKjcGrant(kjcGrant);
     }
