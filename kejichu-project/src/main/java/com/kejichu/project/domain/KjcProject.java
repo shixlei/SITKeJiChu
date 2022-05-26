@@ -86,9 +86,6 @@ public class KjcProject extends BaseEntity
             "4=省部级转入,5=一般项目")
     private String level;
 
-    /** 预算 */
-    @Excel(name = "预算")
-    private BigDecimal yusuan;
 
     public void setProjectId(Long projectId) 
     {
@@ -225,15 +222,6 @@ public class KjcProject extends BaseEntity
     {
         return level;
     }
-    public void setYusuan(BigDecimal yusuan) 
-    {
-        this.yusuan = yusuan;
-    }
-
-    public BigDecimal getYusuan() 
-    {
-        return yusuan;
-    }
 
     @Override
     public String toString() {
@@ -255,7 +243,6 @@ public class KjcProject extends BaseEntity
             .append("level", getLevel())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
-            .append("yusuan", getYusuan())
             .toString();
     }
 }
