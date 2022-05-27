@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改校内项目')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-xnproject-edit" th:object="${kjcXiaoneiProject}">
+            <input name="xnProjectId" th:field="*{xnProjectId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">项目编号：</label>
+                <div class="col-sm-8">
+                    <input name="xnProjectBianhao" th:field="*{xnProjectBianhao}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">项目名称：</label>
+                <div class="col-sm-8">
+                    <input name="xnProjectName" th:field="*{xnProjectName}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">项目负责人：</label>
+                <div class="col-sm-8">
+                    <input name="xnProjectLeader" th:field="*{xnProjectLeader}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">年份：</label>
+                <div class="col-sm-8">
+                    <input name="xnProjectYear" th:field="*{xnProjectYear}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">学院：</label>
+                <div class="col-sm-8">
+                    <select name="xnSchool" class="form-control m-b" th:with="type=${@dict.getType('kjc-college')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{xnSchool}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">批准经费：</label>
+                <div class="col-sm-8">
+                    <input name="xnProjectGrant" th:field="*{xnProjectGrant}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">项目状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('kjc_project_status')}">
+                        <input type="radio" th:id="${'xnProjectStatus_' + dict.dictCode}" name="xnProjectStatus" th:value="${dict.dictValue}" th:field="*{xnProjectStatus}" required>
+                        <label th:for="${'xnProjectStatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开始日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="xnStartDate" th:value="${#dates.format(kjcXiaoneiProject.xnStartDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结束：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="xnEndDate" th:value="${#dates.format(kjcXiaoneiProject.xnEndDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目类别：</label>
+                <div class="col-sm-8">
+                    <select name="xnProjectType" class="form-control m-b" th:with="type=${@dict.getType('kjc-project-class')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{xnProjectType}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预算：</label>
+                <div class="col-sm-8">
+                    <input name="xnBudget" th:field="*{xnBudget}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "project/xnproject";
+        $("#form-xnproject-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-xnproject-edit').serialize());
+            }
+        }
+
+        $("input[name='xnStartDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='xnEndDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

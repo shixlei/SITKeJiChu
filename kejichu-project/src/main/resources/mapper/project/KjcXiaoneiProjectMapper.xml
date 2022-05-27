@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kejichu.project.mapper.KjcXiaoneiProjectMapper">
+    
+    <resultMap type="KjcXiaoneiProject" id="KjcXiaoneiProjectResult">
+        <result property="xnProjectId"    column="xn_project_id"    />
+        <result property="xnProjectBianhao"    column="xn_project_bianhao"    />
+        <result property="xnProjectName"    column="xn_project_name"    />
+        <result property="xnProjectLeader"    column="xn_project_leader"    />
+        <result property="xnProjectYear"    column="xn_project_year"    />
+        <result property="xnSchool"    column="xn_school"    />
+        <result property="xnProjectGrant"    column="xn_project_grant"    />
+        <result property="xnProjectStatus"    column="xn_project_status"    />
+        <result property="xnStartDate"    column="xn_start_date"    />
+        <result property="xnEndDate"    column="xn_end_date"    />
+        <result property="xnProjectType"    column="xn_project_type"    />
+        <result property="xnBudget"    column="xn_budget"    />
+    </resultMap>
+
+    <sql id="selectKjcXiaoneiProjectVo">
+        select xn_project_id, xn_project_bianhao, xn_project_name, xn_project_leader, xn_project_year, xn_school, xn_project_grant, xn_project_status, xn_start_date, xn_end_date, xn_project_type, xn_budget from kjc_xiaonei_project
+    </sql>
+
+    <select id="selectKjcXiaoneiProjectList" parameterType="KjcXiaoneiProject" resultMap="KjcXiaoneiProjectResult">
+        <include refid="selectKjcXiaoneiProjectVo"/>
+        <where>  
+            <if test="xnProjectBianhao != null  and xnProjectBianhao != ''"> and xn_project_bianhao = #{xnProjectBianhao}</if>
+            <if test="xnProjectName != null  and xnProjectName != ''"> and xn_project_name like concat('%', #{xnProjectName}, '%')</if>
+            <if test="xnProjectLeader != null  and xnProjectLeader != ''"> and xn_project_leader like concat('%', #{xnProjectLeader}, '%')</if>
+            <if test="xnProjectYear != null  and xnProjectYear != ''"> and xn_project_year = #{xnProjectYear}</if>
+            <if test="xnSchool != null  and xnSchool != ''"> and xn_school like concat('%', #{xnSchool}, '%')</if>
+            <if test="xnProjectGrant != null "> and xn_project_grant = #{xnProjectGrant}</if>
+            <if test="xnProjectStatus != null  and xnProjectStatus != ''"> and xn_project_status = #{xnProjectStatus}</if>
+            <if test="xnStartDate != null "> and xn_start_date = #{xnStartDate}</if>
+            <if test="xnEndDate != null "> and xn_end_date = #{xnEndDate}</if>
+            <if test="xnProjectType != null  and xnProjectType != ''"> and xn_project_type = #{xnProjectType}</if>
+            <if test="xnBudget != null "> and xn_budget = #{xnBudget}</if>
+        </where>
+    </select>
+    
+    <select id="selectKjcXiaoneiProjectByXnProjectId" parameterType="Long" resultMap="KjcXiaoneiProjectResult">
+        <include refid="selectKjcXiaoneiProjectVo"/>
+        where xn_project_id = #{xnProjectId}
+    </select>
+        
+    <insert id="insertKjcXiaoneiProject" parameterType="KjcXiaoneiProject" useGeneratedKeys="true" keyProperty="xnProjectId">
+        insert into kjc_xiaonei_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xnProjectBianhao != null and xnProjectBianhao != ''">xn_project_bianhao,</if>
+            <if test="xnProjectName != null and xnProjectName != ''">xn_project_name,</if>
+            <if test="xnProjectLeader != null and xnProjectLeader != ''">xn_project_leader,</if>
+            <if test="xnProjectYear != null and xnProjectYear != ''">xn_project_year,</if>
+            <if test="xnSchool != null and xnSchool != ''">xn_school,</if>
+            <if test="xnProjectGrant != null">xn_project_grant,</if>
+            <if test="xnProjectStatus != null and xnProjectStatus != ''">xn_project_status,</if>
+            <if test="xnStartDate != null">xn_start_date,</if>
+            <if test="xnEndDate != null">xn_end_date,</if>
+            <if test="xnProjectType != null">xn_project_type,</if>
+            <if test="xnBudget != null">xn_budget,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xnProjectBianhao != null and xnProjectBianhao != ''">#{xnProjectBianhao},</if>
+            <if test="xnProjectName != null and xnProjectName != ''">#{xnProjectName},</if>
+            <if test="xnProjectLeader != null and xnProjectLeader != ''">#{xnProjectLeader},</if>
+            <if test="xnProjectYear != null and xnProjectYear != ''">#{xnProjectYear},</if>
+            <if test="xnSchool != null and xnSchool != ''">#{xnSchool},</if>
+            <if test="xnProjectGrant != null">#{xnProjectGrant},</if>
+            <if test="xnProjectStatus != null and xnProjectStatus != ''">#{xnProjectStatus},</if>
+            <if test="xnStartDate != null">#{xnStartDate},</if>
+            <if test="xnEndDate != null">#{xnEndDate},</if>
+            <if test="xnProjectType != null">#{xnProjectType},</if>
+            <if test="xnBudget != null">#{xnBudget},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKjcXiaoneiProject" parameterType="KjcXiaoneiProject">
+        update kjc_xiaonei_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="xnProjectBianhao != null and xnProjectBianhao != ''">xn_project_bianhao = #{xnProjectBianhao},</if>
+            <if test="xnProjectName != null and xnProjectName != ''">xn_project_name = #{xnProjectName},</if>
+            <if test="xnProjectLeader != null and xnProjectLeader != ''">xn_project_leader = #{xnProjectLeader},</if>
+            <if test="xnProjectYear != null and xnProjectYear != ''">xn_project_year = #{xnProjectYear},</if>
+            <if test="xnSchool != null and xnSchool != ''">xn_school = #{xnSchool},</if>
+            <if test="xnProjectGrant != null">xn_project_grant = #{xnProjectGrant},</if>
+            <if test="xnProjectStatus != null and xnProjectStatus != ''">xn_project_status = #{xnProjectStatus},</if>
+            <if test="xnStartDate != null">xn_start_date = #{xnStartDate},</if>
+            <if test="xnEndDate != null">xn_end_date = #{xnEndDate},</if>
+            <if test="xnProjectType != null">xn_project_type = #{xnProjectType},</if>
+            <if test="xnBudget != null">xn_budget = #{xnBudget},</if>
+        </trim>
+        where xn_project_id = #{xnProjectId}
+    </update>
+
+    <delete id="deleteKjcXiaoneiProjectByXnProjectId" parameterType="Long">
+        delete from kjc_xiaonei_project where xn_project_id = #{xnProjectId}
+    </delete>
+
+    <delete id="deleteKjcXiaoneiProjectByXnProjectIds" parameterType="String">
+        delete from kjc_xiaonei_project where xn_project_id in 
+        <foreach item="xnProjectId" collection="array" open="(" separator="," close=")">
+            #{xnProjectId}
+        </foreach>
+    </delete>
+
+</mapper>

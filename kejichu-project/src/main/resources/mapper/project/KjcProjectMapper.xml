@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deptName"    column="dept_name"    />
         <result property="projectGrant"    column="project_grant"    />
         <result property="projectStatus"    column="project_status"    />
+        <result property="projectYear"    column="project_year"    />
         <result property="startData"    column="start_data"    />
         <result property="endData"    column="end_data"    />
         <result property="projectType"    column="project_type"    />
@@ -25,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectKjcProjectVo">
-        select project_id, project_bianhao, project_name, project_leader, user_id, dept_name, project_grant, project_status, start_data, end_data, project_type, xiadadanwei, waibo, hezuofangshi, level, create_by, create_time from kjc_project
+        select project_id, project_bianhao, project_name, project_leader, user_id, dept_name, project_grant, project_status,project_year, start_data, end_data, project_type, xiadadanwei, waibo, hezuofangshi, level, create_by, create_time from kjc_project
     </sql>
 
     <select id="selectKjcProjectList2" parameterType="KjcProject" resultMap="KjcProjectResult">
@@ -38,6 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
             <if test="projectGrant != null "> and project_grant = #{projectGrant}</if>
             <if test="projectStatus != null  and projectStatus != ''"> and project_status = #{projectStatus}</if>
+            <if test="projectYear != null  and projectYear != ''"> and project_year = #{projectYear}</if>
             <if test="startData != null "> and start_data like concat('%', #{startData}, '%')</if>
             <if test="endData != null "> and end_data like concat('%', #{endData}, '%')</if>
             <if test="projectType != null  and projectType != ''"> and project_type = #{projectType}</if>
@@ -66,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null "> and p.user_id = #{userId}</if>
             <if test="deptName != null  and deptName != ''"> and p.dept_name like concat('%', #{deptName}, '%')</if>
             <if test="projectGrant != null "> and p.project_grant = #{projectGrant}</if>
+            <if test="projectYear != null  and projectYear != ''"> and p.project_year = #{projectYear}</if>
             <if test="projectStatus != null  and projectStatus != ''"> and p.project_status = #{projectStatus}</if>
             <if test="startData != null "> and p.start_data like concat('%', #{startData}, '%')</if>
             <if test="endData != null "> and p.end_data like concat('%', #{endData}, '%')</if>
@@ -105,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptName != null">dept_name,</if>
             <if test="projectGrant != null">project_grant,</if>
             <if test="projectStatus != null and projectStatus != ''">project_status,</if>
+            <if test="projectYear != null">project_year,</if>
             <if test="startData != null">start_data,</if>
             <if test="endData != null">end_data,</if>
             <if test="projectType != null">project_type,</if>
@@ -123,6 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptName != null">#{deptName},</if>
             <if test="projectGrant != null">#{projectGrant},</if>
             <if test="projectStatus != null and projectStatus != ''">#{projectStatus},</if>
+            <if test="projectYear != null">#{project_year},</if>
             <if test="startData != null">#{startData},</if>
             <if test="endData != null">#{endData},</if>
             <if test="projectType != null">#{projectType},</if>
@@ -145,6 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptName != null">dept_name = #{deptName},</if>
             <if test="projectGrant != null">project_grant = #{projectGrant},</if>
             <if test="projectStatus != null and projectStatus != ''">project_status = #{projectStatus},</if>
+            <if test="projectYear != null  and projectYear != ''">project_year = #{projectYear},</if>
             <if test="startData != null">start_data = #{startData},</if>
             <if test="endData != null">end_data = #{endData},</if>
             <if test="projectType != null">project_type = #{projectType},</if>

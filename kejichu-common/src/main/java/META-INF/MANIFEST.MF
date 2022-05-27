@@ -1,0 +1,56 @@
+Manifest-Version: 1.0
+Main-Class: com.kejichu.RuoYiApplication
+Class-Path: kaptcha-2.3.2.jar spring-boot-starter-tomcat-2.2.13.RELEASE.
+ jar SparseBitSet-1.2.jar ehcache-core-2.6.11.jar spring-boot-starter-ao
+ p-2.2.13.RELEASE.jar shiro-cache-1.7.1.jar snakeyaml-1.25.jar commons-b
+ eanutils-1.9.4.jar spring-boot-starter-logging-2.2.13.RELEASE.jar sprin
+ g-web-5.2.12.RELEASE.jar thymeleaf-extras-shiro-2.0.0.jar jackson-datat
+ ype-jdk8-2.10.5.jar swagger-annotations-2.1.2.jar spring-boot-starter-t
+ hymeleaf-2.2.13.RELEASE.jar springfox-core-3.0.0.jar commons-lang-2.4.j
+ ar slf4j-api-1.7.30.jar log4j-api-2.12.1.jar springfox-data-rest-3.0.0.
+ jar shiro-lang-1.7.1.jar spring-boot-starter-2.2.13.RELEASE.jar spring-
+ beans-5.2.12.RELEASE.jar springfox-spring-web-3.0.0.jar javax.servlet-a
+ pi-4.0.1.jar commons-compress-1.19.jar jackson-datatype-jsr310-2.10.5.j
+ ar shiro-crypto-hash-1.7.1.jar shiro-event-1.7.1.jar thymeleaf-extras-j
+ ava8time-3.0.4.RELEASE.jar commons-collections4-4.4.jar logback-core-1.
+ 2.3.jar curvesapi-1.06.jar springfox-spring-webflux-3.0.0.jar log4j-to-
+ slf4j-2.12.1.jar spring-boot-starter-jdbc-2.2.13.RELEASE.jar jakarta.va
+ lidation-api-2.0.2.jar druid-1.2.6.jar thymeleaf-spring5-3.0.12.RELEASE
+ .jar springfox-bean-validators-3.0.0.jar shiro-crypto-cipher-1.7.1.jar 
+ pagehelper-5.2.1.jar springfox-swagger-ui-3.0.0.jar jackson-module-para
+ meter-names-2.10.5.jar spring-boot-starter-json-2.2.13.RELEASE.jar shir
+ o-core-1.7.1.jar classmate-1.5.1.jar spring-aop-5.2.12.RELEASE.jar page
+ helper-spring-boot-starter-1.3.1.jar mchange-commons-java-0.2.15.jar sp
+ ringfox-swagger2-3.0.0.jar attoparser-2.0.5.RELEASE.jar commons-io-2.11
+ .0.jar logback-classic-1.2.3.jar spring-boot-2.2.13.RELEASE.jar shiro-s
+ pring-1.7.1.jar classgraph-4.8.83.jar spring-context-support-5.2.12.REL
+ EASE.jar spring-boot-devtools-2.2.13.RELEASE.jar commons-fileupload-1.4
+ .jar tomcat-embed-el-9.0.41.jar springfox-swagger-common-3.0.0.jar spri
+ ng-boot-starter-validation-2.2.13.RELEASE.jar spring-jcl-5.2.12.RELEASE
+ .jar swagger-models-1.6.2.jar commons-collections-3.2.2.jar commons-lan
+ g3-3.9.jar spring-webmvc-5.2.12.RELEASE.jar spring-expression-5.2.12.RE
+ LEASE.jar springfox-spring-webmvc-3.0.0.jar springfox-oas-3.0.0.jar byt
+ e-buddy-1.10.19.jar springfox-boot-starter-3.0.0.jar jackson-annotation
+ s-2.10.5.jar validation-api-2.0.1.Final.jar springfox-spi-3.0.0.jar pag
+ ehelper-spring-boot-autoconfigure-1.3.1.jar shiro-web-1.7.1.jar spring-
+ core-5.2.12.RELEASE.jar mysql-connector-java-8.0.22.jar swagger-annotat
+ ions-1.6.2.jar filters-2.0.235-1.jar fastjson-1.2.76.jar jna-platform-5
+ .8.0.jar mybatis-spring-boot-starter-2.1.4.jar mybatis-3.5.6.jar UserAg
+ entUtils-1.21.jar HikariCP-3.4.5.jar shiro-ehcache-1.7.1.jar spring-jdb
+ c-5.2.12.RELEASE.jar tomcat-embed-websocket-9.0.41.jar springfox-schema
+ -3.0.0.jar oshi-core-5.8.0.jar poi-ooxml-schemas-4.1.2.jar jul-to-slf4j
+ -1.7.30.jar swagger-models-2.1.2.jar shiro-config-ogdl-1.7.1.jar jakart
+ a.annotation-api-1.3.5.jar commons-math3-3.6.1.jar thymeleaf-3.0.12.REL
+ EASE.jar mapstruct-1.3.1.Final.jar jackson-databind-2.10.5.1.jar jackso
+ n-core-2.10.5.jar shiro-config-core-1.7.1.jar spring-context-5.2.12.REL
+ EASE.jar jna-5.8.0.jar spring-plugin-metadata-2.0.0.RELEASE.jar spring-
+ plugin-core-2.0.0.RELEASE.jar quartz-2.3.2.jar jboss-logging-3.4.1.Fina
+ l.jar druid-spring-boot-starter-1.2.6.jar spring-boot-starter-web-2.2.1
+ 3.RELEASE.jar poi-4.1.2.jar mybatis-spring-boot-autoconfigure-2.1.4.jar
+  tomcat-embed-core-9.0.41.jar aspectjweaver-1.9.6.jar mybatis-spring-2.
+ 0.6.jar commons-codec-1.13.jar spring-boot-autoconfigure-2.2.13.RELEASE
+ .jar shiro-crypto-core-1.7.1.jar velocity-1.7.jar spring-tx-5.2.12.RELE
+ ASE.jar jsqlparser-4.0.jar unbescape-1.1.6.RELEASE.jar xmlbeans-3.1.0.j
+ ar poi-ooxml-4.1.2.jar encoder-1.2.2.jar hibernate-validator-6.0.22.Fin
+ al.jar
+

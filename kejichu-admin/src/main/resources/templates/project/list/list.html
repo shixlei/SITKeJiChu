@@ -15,16 +15,8 @@
                                 <input type="text" name="projectBianhao"/>
                             </li>
                             <li>
-                                <label>项目名称：</label>
-                                <input type="text" name="projectName"/>
-                            </li>
-                            <li>
                                 <label>负责人名字：</label>
                                 <input type="text" name="projectLeader"/>
-                            </li>
-                            <li>
-                                <label>负责人工号：</label>
-                                <input type="text" name="userId"/>
                             </li>
                             <li>
                                 <label>所属学院：</label>
@@ -32,10 +24,6 @@
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
-                            </li>
-<!--                            <li>
-                                <label>批准经费：</label>
-                                <input type="text" name="projectGrant"/>
                             </li>
                             <li>
                                 <label>项目状态：</label>
@@ -45,12 +33,8 @@
                                 </select>
                             </li>
                             <li>
-                                <label>开始日期：</label>
-                                <input type="text" class="time-input" placeholder="请选择开始日期" name="startData"/>
-                            </li>
-                            <li>
-                                <label>结束日期：</label>
-                                <input type="text" class="time-input" placeholder="请选择结束日期" name="endData"/>
+                                <label>年份：</label>
+                                <input type="text" name="projectYear"/>
                             </li>
                             <li>
                                 <label>项目类型：</label>
@@ -59,10 +43,6 @@
                             <li>
                                 <label>下达单位：</label>
                                 <input type="text" name="xiadadanwei"/>
-                            </li>
-                            <li>
-                                <label>外拨金额：</label>
-                                <input type="text" name="waibo"/>
                             </li>
                             <li>
                                 <label>合作方式：</label>
@@ -78,14 +58,6 @@
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
-                            <li>
-                                <label>登记人：</label>
-                                <input type="text" name="createBy"/>
-                            </li>
-                            <li>
-                                <label>登记日期：</label>
-                                <input type="text" class="time-input" placeholder="请选择登记日期" name="createTime"/>
-                            </li>-->
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -186,6 +158,10 @@
                     }
                 },
                 {
+                    field: 'projectYear',
+                    title: '年份'
+                },
+                {
                     field: 'startData',
                     title: '开始日期'
                 },
@@ -227,10 +203,6 @@
                     field: 'createTime',
                     title: '登记日期'
                 },
-/*                {
-                    field: 'yusuan',
-                    title: '预算'
-                },*/
                 {
                     title: '操作',
                     align: 'center',

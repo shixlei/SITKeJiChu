@@ -52,8 +52,12 @@ public class KjcProject extends BaseEntity
     private BigDecimal projectGrant;
 
     /** 项目状态 */
-    @Excel(name = "项目状态",readConverterExp = "1=在研 ,2=结题 ,3=终止 ,4=延期 " )
+    @Excel(name = "项目状态",readConverterExp = "0=立项,1=在研,2=结题 ,3=终止 ,4=延期 " )
     private String projectStatus;
+
+    /** 年份 */
+    @Excel(name = "年份")
+    private String projectYear;
 
     /** 开始日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -158,6 +162,11 @@ public class KjcProject extends BaseEntity
     {
         return projectStatus;
     }
+    public void setProjectYear(String projectYear)
+    { this.projectYear = projectYear; }
+
+    public String getProjectYear()
+    { return projectYear; }
 
     public void setStartData(Date startData)
     {
@@ -234,6 +243,7 @@ public class KjcProject extends BaseEntity
             .append("deptName", getDeptName())
             .append("projectGrant", getProjectGrant())
             .append("projectStatus", getProjectStatus())
+            .append("projectYear", getProjectYear())
             .append("startData", getStartData())
             .append("endData", getEndData())
             .append("projectType", getProjectType())
