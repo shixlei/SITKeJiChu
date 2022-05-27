@@ -13,10 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="jixiao"    column="jixiao"    />
         <result property="guanlifei"    column="guanlifei"    />
         <result property="grantLaiyuan"    column="grant_laiyuan"    />
+        <result property="grantManager"    column="grant_manager"    />
     </resultMap>
 
     <sql id="selectKjcGrantVo">
-        select grant_id, project_bianhao, grant_pici, grant_time, grant_money, jixiao, guanlifei, grant_laiyuan from kjc_grant
+        select grant_id, project_bianhao, grant_pici, grant_time, grant_money, jixiao, guanlifei, grant_laiyuan,grant_manager from kjc_grant
     </sql>
 
     <select id="selectKjcGrantList" parameterType="KjcGrant" resultMap="KjcGrantResult">
@@ -29,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="jixiao != null "> and jixiao = #{jixiao}</if>
             <if test="guanlifei != null "> and guanlifei = #{guanlifei}</if>
             <if test="grantLaiyuan != null  and grantLaiyuan != ''"> and grant_laiyuan like concat('%', #{grantLaiyuan}, '%')</if>
+            <if test="grantManager != null  and grantManager != ''"> and grant_manager = #{grantManager}</if>
         </where>
         order by  grant_time desc
     </select>
@@ -49,11 +51,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-
-
-
-
-
         
     <insert id="insertKjcGrant" parameterType="KjcGrant" useGeneratedKeys="true" keyProperty="grantId">
         insert into kjc_grant
@@ -65,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="jixiao != null">jixiao,</if>
             <if test="guanlifei != null">guanlifei,</if>
             <if test="grantLaiyuan != null">grant_laiyuan,</if>
+            <if test="grantManager != null and grantManager != ''">grant_manager,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
@@ -74,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="jixiao != null">#{jixiao},</if>
             <if test="guanlifei != null">#{guanlifei},</if>
             <if test="grantLaiyuan != null">#{grantLaiyuan},</if>
+            <if test="grantManager != null and grantManager != ''">#{grantManager},</if>
          </trim>
     </insert>
 
@@ -87,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="jixiao != null">jixiao = #{jixiao},</if>
             <if test="guanlifei != null">guanlifei = #{guanlifei},</if>
             <if test="grantLaiyuan != null">grant_laiyuan = #{grantLaiyuan},</if>
+            <if test="grantManager != null and grantManager != ''">grant_manager = #{grantManager},</if>
         </trim>
         where grant_id = #{grantId}
     </update>

@@ -51,6 +51,10 @@ public class KjcGrant extends BaseEntity
     @Excel(name = "款项来源")
     private String grantLaiyuan;
 
+    /** 负责人姓名 */
+    @Excel(name = "负责人姓名")
+    private String grantManager;
+
     public void setGrantId(Long grantId) 
     {
         this.grantId = grantId;
@@ -123,6 +127,11 @@ public class KjcGrant extends BaseEntity
     {
         return grantLaiyuan;
     }
+    public void setGrantManager(String grantManager)
+    { this.grantManager = grantManager; }
+
+    public String getGrantManager()
+    { return grantManager; }
 
     @Override
     public String toString() {
@@ -135,6 +144,7 @@ public class KjcGrant extends BaseEntity
             .append("jixiao", getJixiao())
             .append("guanlifei", getGuanlifei())
             .append("grantLaiyuan", getGrantLaiyuan())
+            .append("grantManager", getGrantManager())
             .toString();
     }
 }
