@@ -150,12 +150,20 @@
             format: "yyyy-mm-dd",
             minView: "month",
             autoclose: true
+        }).on('changeDate', function (ev) {
+            var startTime = $("input[name='startData']").val();
+            $("input[name='endData']").datetimepicker("setStartDate", startTime.toString("yyyy-MM-dd"));
+            queryFunc();
         });
 
         $("input[name='endData']").datetimepicker({
             format: "yyyy-mm-dd",
             minView: "month",
             autoclose: true
+        }).on('changeDate', function (ev) {
+            var endTime = $("input[name='endData']").val();
+            $("input[name='startData']").datetimepicker("setEndDate", endTime.toString("yyyy-MM-dd"));
+            queryFunc();
         });
     </script>
 </body>
