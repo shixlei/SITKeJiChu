@@ -51,6 +51,10 @@ public class KjcProject extends BaseEntity
     @Excel(name = "批准经费")
     private BigDecimal projectGrant;
 
+    /** 实际在校经费 */
+    @Excel(name = "实际在校经费")
+    private BigDecimal schoolRealBudget;
+
     /** 项目状态 */
     @Excel(name = "项目状态",readConverterExp = "0=立项,1=在研,2=结题 ,3=终止 ,4=延期 " )
     private String projectStatus;
@@ -58,6 +62,10 @@ public class KjcProject extends BaseEntity
     /** 年份 */
     @Excel(name = "年份")
     private String projectYear;
+
+    /** 绩效 */
+    @Excel(name = "绩效")
+    private BigDecimal projectPerformance;
 
     /** 开始日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -149,9 +157,19 @@ public class KjcProject extends BaseEntity
     {
         this.projectGrant = projectGrant;
     }
-    public BigDecimal getProjectGrant() 
+    public BigDecimal getProjectGrant()
     {
         return projectGrant;
+    }
+
+    public void setSchoolRealBudget(BigDecimal schoolRealBudget)
+    {
+        this.schoolRealBudget = schoolRealBudget;
+    }
+
+    public BigDecimal getSchoolRealBudget()
+    {
+        return schoolRealBudget;
     }
 
     public void setProjectStatus(String projectStatus)
@@ -165,9 +183,17 @@ public class KjcProject extends BaseEntity
     public void setProjectYear(String projectYear)
     { this.projectYear = projectYear; }
 
-    public String getProjectYear()
-    { return projectYear; }
+    public String getProjectYear() { return projectYear; }
 
+    public void setProjectPerformance(BigDecimal projectPerformance)
+    {
+        this.projectPerformance = projectPerformance;
+    }
+
+    public BigDecimal getProjectPerformance()
+    {
+        return projectPerformance;
+    }
     public void setStartData(Date startData)
     {
         this.startData = startData;
@@ -242,8 +268,10 @@ public class KjcProject extends BaseEntity
             .append("userId", getUserId())
             .append("deptName", getDeptName())
             .append("projectGrant", getProjectGrant())
+            .append("schoolRealBudget", getSchoolRealBudget())
             .append("projectStatus", getProjectStatus())
             .append("projectYear", getProjectYear())
+            .append("projectPerformance", getProjectPerformance())
             .append("startData", getStartData())
             .append("endData", getEndData())
             .append("projectType", getProjectType())
