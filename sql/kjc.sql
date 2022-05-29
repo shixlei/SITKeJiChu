@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 27/05/2022 15:06:57
+ Date: 29/05/2022 15:45:36
 */
 
 SET NAMES utf8mb4;
@@ -86,7 +86,7 @@ CREATE TABLE `gen_table_column` (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '更新者',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=162 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='代码生成业务表字段';
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='代码生成业务表字段';
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -159,6 +159,8 @@ INSERT INTO `gen_table_column` VALUES (158, '15', 'xn_project_type', '项目类�
 INSERT INTO `gen_table_column` VALUES (159, '15', 'xn_budget', '预算', 'float(64,2)', 'Double', 'xnBudget', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 12, 'admin', '2022-05-26 22:33:43', NULL, '2022-05-26 23:08:23');
 INSERT INTO `gen_table_column` VALUES (160, '6', 'project_year', '年份', 'varchar(32)', 'String', 'projectYear', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 9, '', '2022-05-27 09:18:54', '', NULL);
 INSERT INTO `gen_table_column` VALUES (161, '9', 'grant_manager', '负责人姓名', 'varchar(32)', 'String', 'grantManager', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 9, '', '2022-05-27 12:39:41', '', NULL);
+INSERT INTO `gen_table_column` VALUES (162, '6', 'school_real_budget', '实际在校经费', 'decimal(64,2) unsigned zerofill', 'BigDecimal', 'schoolRealBudget', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 8, '', '2022-05-29 14:00:22', '', NULL);
+INSERT INTO `gen_table_column` VALUES (163, '6', 'project_performance', '绩效', 'decimal(64,2) unsigned zerofill', 'BigDecimal', 'projectPerformance', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 11, '', '2022-05-29 15:31:41', '', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -191,7 +193,7 @@ INSERT INTO `kjc_grant` VALUES (159, 'NX1565665263554', 3, '2022-04-22 00:00:00'
 INSERT INTO `kjc_grant` VALUES (168, 'NX1565665263554', 5, '2022-04-22 00:00:00', 1000000, 10000, 10000, '', '');
 INSERT INTO `kjc_grant` VALUES (178, 'NX1565665263554', 2, '2022-04-22 00:00:00', 1000000, 10000, 10000, '', '');
 INSERT INTO `kjc_grant` VALUES (181, 'NX1565665263554', 2, '2022-04-22 00:00:00', 10000, 1000, 200, '', '');
-INSERT INTO `kjc_grant` VALUES (182, 'NX1565665263554', 2, '2022-05-26 00:00:00', 1000000, 1000, 20000, '学院', '谈成龙');
+INSERT INTO `kjc_grant` VALUES (182, 'NX1565665263554', 2, '2022-05-26 00:00:00', 1000000, 1000, 0, '学院', '谈成龙');
 COMMIT;
 
 -- ----------------------------
@@ -231,14 +233,16 @@ CREATE TABLE `kjc_project` (
   `project_leader` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '负责人名字',
   `user_id` int DEFAULT NULL COMMENT '负责人工号',
   `dept_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '所属学院',
-  `project_grant` float unsigned zerofill DEFAULT NULL COMMENT '批准经费',
+  `project_grant` decimal(10,0) unsigned zerofill DEFAULT NULL COMMENT '批准经费',
+  `school_real_budget` decimal(64,2) unsigned zerofill DEFAULT NULL COMMENT '实际在校经费',
   `project_status` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目状态',
-  `project_year` varchar(32) DEFAULT NULL COMMENT '年份',
+  `project_year` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '年份',
+  `project_performance` decimal(64,2) unsigned zerofill DEFAULT NULL COMMENT '绩效',
   `start_data` datetime DEFAULT NULL COMMENT '开始日期',
   `end_data` datetime DEFAULT NULL COMMENT '结束日期',
   `project_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目类型',
   `xiadadanwei` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '下达单位',
-  `waibo` float unsigned zerofill DEFAULT NULL COMMENT '外拨金额',
+  `waibo` decimal(10,0) unsigned zerofill DEFAULT NULL COMMENT '外拨金额',
   `hezuofangshi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '合作方式',
   `level` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目级别',
   `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '登记人',
@@ -246,19 +250,21 @@ CREATE TABLE `kjc_project` (
   PRIMARY KEY (`project_id`) USING BTREE,
   KEY `project_bianhao` (`project_bianhao`) USING BTREE,
   KEY `project_name` (`project_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='项目表';
 
 -- ----------------------------
 -- Records of kjc_project
 -- ----------------------------
 BEGIN;
-INSERT INTO `kjc_project` VALUES (3, 'NX1565665263554', '区块链实验', '时雪磊', 206141115, '4', 000000010000, '1', NULL, '2021-08-05 00:00:00', '2021-08-27 00:00:00', '', '上海市科学基金委员会', 000000001000, '0', '0', NULL, '2022-03-27 14:17:42');
-INSERT INTO `kjc_project` VALUES (4, 'SH1324845123', '安全实验室建设', '孙悦', 196141115, '1', 000000999999, '2', NULL, '2021-08-19 00:00:00', '2021-09-04 00:00:00', '', '国家自然科学基金', 000000213152, '1', '0', NULL, '2022-03-04 16:12:38');
-INSERT INTO `kjc_project` VALUES (33, 'KX1234567', '人工智能', '谈成龙', 2323131, '1', 000001000000, '1', NULL, '2022-03-04 00:00:00', '2022-03-05 00:00:00', '人工智能', '科技处', 000000002000, '0', '0', NULL, '2022-03-04 16:21:24');
-INSERT INTO `kjc_project` VALUES (34, 'MX123123', '', '谈成龙', NULL, '1', NULL, '1', NULL, NULL, NULL, '', '', NULL, '0', '0', NULL, '2021-10-29 16:33:06');
-INSERT INTO `kjc_project` VALUES (35, 'NX20203047777', '计算机网络架构', '本人', 12312312, '7', 000001000000, '2', NULL, '2022-03-03 00:00:00', '2022-03-18 00:00:00', '', '', NULL, '0', '0', NULL, '2022-03-04 16:02:12');
-INSERT INTO `kjc_project` VALUES (36, 'nx89999', '欧拉', '顺', 123123, '1', 000000012321, '1', NULL, NULL, NULL, '', '', NULL, '0', '0', NULL, '2022-03-27 14:22:54');
-INSERT INTO `kjc_project` VALUES (37, 'TX236172361', '渗透测试', '谈成龙', 123212321, '1', 000001000000, '2', '2022', '2022-05-11 00:00:00', '2022-05-04 00:00:00', '计算机网络', '', NULL, '0', '0', NULL, '2022-05-27 12:31:56');
+INSERT INTO `kjc_project` VALUES (3, 'NX1565665263554', '区块链实验', '时雪磊', 206141115, '4', 0000010000, NULL, '1', NULL, NULL, '2021-08-05 00:00:00', '2021-08-27 00:00:00', '', '上海市科学基金委员会', 0000001000, '0', '0', NULL, '2022-03-27 14:17:42');
+INSERT INTO `kjc_project` VALUES (4, 'SH1324845123', '安全实验室建设', '孙悦', 196141115, '1', 0000999999, NULL, '2', NULL, NULL, '2021-08-19 00:00:00', '2021-09-04 00:00:00', '', '国家自然科学基金', 0000213152, '1', '0', NULL, '2022-03-04 16:12:38');
+INSERT INTO `kjc_project` VALUES (33, 'KX1234567', '人工智能', '谈成龙', 2323131, '1', 0001000000, NULL, '1', '2022', NULL, '2022-03-04 00:00:00', '2022-03-05 00:00:00', '人工智能', '科技处', 0000002000, '0', '0', NULL, '2022-05-29 14:19:14');
+INSERT INTO `kjc_project` VALUES (34, 'MX123123', '', '谈成龙', NULL, '1', NULL, NULL, '1', NULL, NULL, NULL, NULL, '', '', NULL, '0', '0', NULL, '2021-10-29 16:33:06');
+INSERT INTO `kjc_project` VALUES (35, 'NX20203047777', '计算机网络架构', '本人', 12312312, '7', 0001000000, NULL, '2', NULL, NULL, '2022-03-03 00:00:00', '2022-03-18 00:00:00', '', '', NULL, '0', '0', NULL, '2022-03-04 16:02:12');
+INSERT INTO `kjc_project` VALUES (36, 'nx89999', '欧拉', '顺', 123123, '1', 0000012321, NULL, '1', NULL, NULL, NULL, NULL, '', '', NULL, '0', '0', NULL, '2022-03-27 14:22:54');
+INSERT INTO `kjc_project` VALUES (37, 'TX236172361', '渗透测试', '谈成龙', 123212321, '1', 0000010000, 00000000000000000000000000000000000000000000000000000000002000.00, '6', '2022', 00000000000000000000000000000000000000000000000000000000000200.00, '2022-05-11 00:00:00', '2022-05-04 00:00:00', '计算机网络', '', NULL, '0', '0', NULL, '2022-05-29 15:39:02');
+INSERT INTO `kjc_project` VALUES (38, 'KSS89823', '分布式数据库转存', '谈成龙', 2012110069, '1', 0000100000, 00000000000000000000000000000000000000000000000000000000003000.00, '7', '2022', NULL, '2022-05-06 00:00:00', '2022-05-26 00:00:00', '校内项目', '', NULL, '0', '0', NULL, '2022-05-29 14:27:43');
+INSERT INTO `kjc_project` VALUES (39, 'MK82931', '智能仪表系统', '谈成龙', 18329123, '1', 0000100000, 00000000000000000000000000000000000000000000000000000000100000.00, '1', '2022', 00000000000000000000000000000000000000000000000000000000003000.00, '2022-05-05 00:00:00', '2022-05-27 00:00:00', '校企项目', '', NULL, '0', '0', NULL, '2022-05-29 15:41:22');
 COMMIT;
 
 -- ----------------------------
@@ -538,7 +544,7 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE` (
 -- Records of QRTZ_SCHEDULER_STATE
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_SCHEDULER_STATE` VALUES ('RuoyiScheduler', 'MecousdeMacBook-Pro.local1653627715954', 1653631211528, 15000);
+INSERT INTO `QRTZ_SCHEDULER_STATE` VALUES ('RuoyiScheduler', 'MecousdeMacBook-Pro.local1653809909569', 1653810227705, 15000);
 COMMIT;
 
 -- ----------------------------
@@ -621,9 +627,9 @@ CREATE TABLE `QRTZ_TRIGGERS` (
 -- Records of QRTZ_TRIGGERS
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_TRIGGERS` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', 'TASK_CLASS_NAME1', 'DEFAULT', NULL, 1653627720000, -1, 5, 'PAUSED', 'CRON', 1653627716000, 0, NULL, 2, '');
-INSERT INTO `QRTZ_TRIGGERS` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', 'TASK_CLASS_NAME2', 'DEFAULT', NULL, 1653627720000, -1, 5, 'PAUSED', 'CRON', 1653627716000, 0, NULL, 2, '');
-INSERT INTO `QRTZ_TRIGGERS` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', 'TASK_CLASS_NAME3', 'DEFAULT', NULL, 1653627720000, -1, 5, 'PAUSED', 'CRON', 1653627716000, 0, NULL, 2, '');
+INSERT INTO `QRTZ_TRIGGERS` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', 'TASK_CLASS_NAME1', 'DEFAULT', NULL, 1653809910000, -1, 5, 'PAUSED', 'CRON', 1653809909000, 0, NULL, 2, '');
+INSERT INTO `QRTZ_TRIGGERS` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', 'TASK_CLASS_NAME2', 'DEFAULT', NULL, 1653809910000, -1, 5, 'PAUSED', 'CRON', 1653809909000, 0, NULL, 2, '');
+INSERT INTO `QRTZ_TRIGGERS` VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', 'TASK_CLASS_NAME3', 'DEFAULT', NULL, 1653809920000, -1, 5, 'PAUSED', 'CRON', 1653809909000, 0, NULL, 2, '');
 COMMIT;
 
 -- ----------------------------
@@ -931,7 +937,7 @@ CREATE TABLE `sys_logininfor` (
   `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '提示消息',
   `login_time` datetime DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=768 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统访问记录';
+) ENGINE=InnoDB AUTO_INCREMENT=776 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统访问记录';
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -1605,6 +1611,14 @@ INSERT INTO `sys_logininfor` VALUES (764, 'admin', '127.0.0.1', '内网IP', 'Chr
 INSERT INTO `sys_logininfor` VALUES (765, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-27 12:58:10');
 INSERT INTO `sys_logininfor` VALUES (766, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-27 12:59:21');
 INSERT INTO `sys_logininfor` VALUES (767, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-27 13:02:26');
+INSERT INTO `sys_logininfor` VALUES (768, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-27 19:05:43');
+INSERT INTO `sys_logininfor` VALUES (769, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-28 19:47:30');
+INSERT INTO `sys_logininfor` VALUES (770, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-29 13:40:22');
+INSERT INTO `sys_logininfor` VALUES (771, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-29 14:10:30');
+INSERT INTO `sys_logininfor` VALUES (772, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-29 14:23:50');
+INSERT INTO `sys_logininfor` VALUES (773, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-29 14:26:26');
+INSERT INTO `sys_logininfor` VALUES (774, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-29 15:31:33');
+INSERT INTO `sys_logininfor` VALUES (775, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-05-29 15:38:39');
 COMMIT;
 
 -- ----------------------------
@@ -1812,7 +1826,7 @@ CREATE TABLE `sys_oper_log` (
   `error_msg` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '' COMMENT '错误消息',
   `oper_time` datetime DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1210 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志记录';
+) ENGINE=InnoDB AUTO_INCREMENT=1228 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志记录';
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -2924,6 +2938,24 @@ INSERT INTO `sys_oper_log` VALUES (1206, '项目信息', 2, 'com.kejichu.project
 INSERT INTO `sys_oper_log` VALUES (1207, '代码生成', 2, 'com.kejichu.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', '计算机学院', '/tool/gen/synchDb/kjc_grant', '127.0.0.1', '内网IP', '\"kjc_grant\"', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-27 12:39:41');
 INSERT INTO `sys_oper_log` VALUES (1208, '拨款记录', 1, 'com.kejichu.project.controller.KjcGrantController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/grant/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"NX1565665263554\"],\"grantPici\":[\"2\"],\"grantTime\":[\"2022-05-26\"],\"grantMoney\":[\"1000000\"],\"jixiao\":[\"1000\"],\"glfbili\":[\"2\"],\"guanlifei\":[\"20000\"],\"grantLaiyuan\":[\"学院\"],\"grantManager\":[\"谈成龙\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-27 13:00:18');
 INSERT INTO `sys_oper_log` VALUES (1209, '拨款记录', 2, 'com.kejichu.project.controller.KjcGrantController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/grant/edit', '127.0.0.1', '内网IP', '{\"grantId\":[\"127\"],\"projectBianhao\":[\"NX1565665263554\"],\"grantPici\":[\"4\"],\"grantTime\":[\"2022-04-22\"],\"grantMoney\":[\"100000\"],\"jixiao\":[\"200.0\"],\"glfbili\":[\"3\"],\"guanlifei\":[\"3000\"],\"grantLaiyuan\":[\"\"],\"grantManager\":[\"谈成龙\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-27 13:02:53');
+INSERT INTO `sys_oper_log` VALUES (1210, '拨款记录', 2, 'com.kejichu.project.controller.KjcGrantController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/grant/edit', '127.0.0.1', '内网IP', '{\"grantId\":[\"182\"],\"projectBianhao\":[\"NX1565665263554\"],\"grantPici\":[\"2\"],\"grantTime\":[\"2022-05-26\"],\"grantMoney\":[\"1000000.0\"],\"jixiao\":[\"1000.0\"],\"glfbili\":[\"\"],\"guanlifei\":[\"0\"],\"grantLaiyuan\":[\"学院\"],\"grantManager\":[\"谈成龙\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-27 19:10:24');
+INSERT INTO `sys_oper_log` VALUES (1211, '项目信息', 2, 'com.kejichu.project.controller.KjcProjectController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/edit', '127.0.0.1', '内网IP', '{\"projectId\":[\"37\"],\"projectBianhao\":[\"TX236172361\"],\"projectName\":[\"渗透测试\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"123212321\"],\"deptName\":[\"1\"],\"projectGrant\":[\"1000000.0\"],\"projectStatus\":[\"6\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-04\"],\"projectType\":[\"计算机网络\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-28 19:50:57');
+INSERT INTO `sys_oper_log` VALUES (1212, '代码生成', 2, 'com.kejichu.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', '计算机学院', '/tool/gen/synchDb/kjc_project', '127.0.0.1', '内网IP', '\"kjc_project\"', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 14:00:22');
+INSERT INTO `sys_oper_log` VALUES (1213, '项目信息', 2, 'com.kejichu.project.controller.KjcProjectController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/edit', '127.0.0.1', '内网IP', '{\"projectId\":[\"37\"],\"projectBianhao\":[\"TX236172361\"],\"projectName\":[\"渗透测试\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"123212321\"],\"deptName\":[\"1\"],\"projectGrant\":[\"1000000\"],\"schoolRealBudget\":[\"2000\"],\"projectStatus\":[\"6\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-04\"],\"projectType\":[\"计算机网络\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 14:10:42');
+INSERT INTO `sys_oper_log` VALUES (1214, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"NX1565665263554\"],\"projectName\":[\"网络分时信号模拟\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"190092\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000\"],\"schoolRealBudget\":[\"10000\"],\"projectStatus\":[\"1\"],\"projectYear\":[\"\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-20\"],\"projectType\":[\"校内项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', NULL, 1, '添加的项目已存在', '2022-05-29 14:11:49');
+INSERT INTO `sys_oper_log` VALUES (1215, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"DF7098222\"],\"projectName\":[\"网络分时信号模拟\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"190092\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000\"],\"schoolRealBudget\":[\"10000\"],\"projectStatus\":[\"1\"],\"projectYear\":[\"\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-20\"],\"projectType\":[\"校内项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', NULL, 1, 'nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named \'project_year\' in \'class com.kejichu.project.domain.KjcProject\'', '2022-05-29 14:12:02');
+INSERT INTO `sys_oper_log` VALUES (1216, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"DF7098222\"],\"projectName\":[\"网络分时信号模拟\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"190092\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000\"],\"schoolRealBudget\":[\"10000\"],\"projectStatus\":[\"1\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-20\"],\"projectType\":[\"校内项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', NULL, 1, 'nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named \'project_year\' in \'class com.kejichu.project.domain.KjcProject\'', '2022-05-29 14:12:18');
+INSERT INTO `sys_oper_log` VALUES (1217, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"DF7098222\"],\"projectName\":[\"网络分时信号模拟\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"190092\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000\"],\"schoolRealBudget\":[\"10000\"],\"projectStatus\":[\"1\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-20\"],\"projectType\":[\"校内项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', NULL, 1, 'nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named \'project_year\' in \'class com.kejichu.project.domain.KjcProject\'', '2022-05-29 14:14:01');
+INSERT INTO `sys_oper_log` VALUES (1218, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"DF7098222\"],\"projectName\":[\"网络分时信号模拟\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"190092\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000\"],\"schoolRealBudget\":[\"10000\"],\"projectStatus\":[\"1\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-20\"],\"projectType\":[\"校内项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', NULL, 1, 'nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named \'project_year\' in \'class com.kejichu.project.domain.KjcProject\'', '2022-05-29 14:14:43');
+INSERT INTO `sys_oper_log` VALUES (1219, '项目信息', 2, 'com.kejichu.project.controller.KjcProjectController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/edit', '127.0.0.1', '内网IP', '{\"projectId\":[\"37\"],\"projectBianhao\":[\"TX236172361\"],\"projectName\":[\"渗透测试\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"123212321\"],\"deptName\":[\"1\"],\"projectGrant\":[\"1000000\"],\"schoolRealBudget\":[\"2000.00\"],\"projectStatus\":[\"6\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-04\"],\"projectType\":[\"计算机网络\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 14:19:00');
+INSERT INTO `sys_oper_log` VALUES (1220, '项目信息', 2, 'com.kejichu.project.controller.KjcProjectController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/edit', '127.0.0.1', '内网IP', '{\"projectId\":[\"33\"],\"projectBianhao\":[\"KX1234567\"],\"projectName\":[\"人工智能\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"2323131\"],\"deptName\":[\"1\"],\"projectGrant\":[\"1000000\"],\"schoolRealBudget\":[\"\"],\"projectStatus\":[\"1\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-03-04\"],\"endData\":[\"2022-03-05\"],\"projectType\":[\"人工智能\"],\"xiadadanwei\":[\"科技处\"],\"waibo\":[\"2000\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 14:19:14');
+INSERT INTO `sys_oper_log` VALUES (1221, '项目信息', 2, 'com.kejichu.project.controller.KjcProjectController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/edit', '127.0.0.1', '内网IP', '{\"projectId\":[\"37\"],\"projectBianhao\":[\"TX236172361\"],\"projectName\":[\"渗透测试\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"123212321\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000.00\"],\"schoolRealBudget\":[\"2000.00\"],\"projectStatus\":[\"6\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-04\"],\"projectType\":[\"计算机网络\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 14:19:32');
+INSERT INTO `sys_oper_log` VALUES (1222, '项目信息', 2, 'com.kejichu.project.controller.KjcProjectController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/edit', '127.0.0.1', '内网IP', '{\"projectId\":[\"37\"],\"projectBianhao\":[\"TX236172361\"],\"projectName\":[\"渗透测试\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"123212321\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000\"],\"schoolRealBudget\":[\"2000.00\"],\"projectStatus\":[\"6\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-04\"],\"projectType\":[\"计算机网络\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 14:19:49');
+INSERT INTO `sys_oper_log` VALUES (1223, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"NX56789123\"],\"projectName\":[\"分布式数据库系统\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"2789123\"],\"deptName\":[\"1\"],\"projectGrant\":[\"1000000\"],\"schoolRealBudget\":[\"80000\"],\"projectStatus\":[\"7\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-19\"],\"endData\":[\"2022-05-27\"],\"projectType\":[\"校内项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', NULL, 1, 'nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named \'project_year\' in \'class com.kejichu.project.domain.KjcProject\'', '2022-05-29 14:24:55');
+INSERT INTO `sys_oper_log` VALUES (1224, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"KSS89823\"],\"projectName\":[\"分布式数据库转存\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"2012110069\"],\"deptName\":[\"1\"],\"projectGrant\":[\"100000\"],\"schoolRealBudget\":[\"3000\"],\"projectStatus\":[\"7\"],\"projectYear\":[\"2022\"],\"startData\":[\"2022-05-06\"],\"endData\":[\"2022-05-26\"],\"projectType\":[\"校内项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 14:27:42');
+INSERT INTO `sys_oper_log` VALUES (1225, '代码生成', 2, 'com.kejichu.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', '计算机学院', '/tool/gen/synchDb/kjc_project', '127.0.0.1', '内网IP', '\"kjc_project\"', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 15:31:41');
+INSERT INTO `sys_oper_log` VALUES (1226, '项目信息', 2, 'com.kejichu.project.controller.KjcProjectController.editSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/edit', '127.0.0.1', '内网IP', '{\"projectId\":[\"37\"],\"projectBianhao\":[\"TX236172361\"],\"projectName\":[\"渗透测试\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"123212321\"],\"deptName\":[\"1\"],\"projectGrant\":[\"10000\"],\"schoolRealBudget\":[\"2000.00\"],\"projectStatus\":[\"6\"],\"projectYear\":[\"2022\"],\"projectPerformance\":[\"200\"],\"startData\":[\"2022-05-11\"],\"endData\":[\"2022-05-04\"],\"projectType\":[\"计算机网络\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 15:39:02');
+INSERT INTO `sys_oper_log` VALUES (1227, '项目信息', 1, 'com.kejichu.project.controller.KjcProjectController.addSave()', 'POST', 1, 'admin', '计算机学院', '/project/list/add', '127.0.0.1', '内网IP', '{\"projectBianhao\":[\"MK82931\"],\"projectName\":[\"智能仪表系统\"],\"projectLeader\":[\"谈成龙\"],\"userId\":[\"18329123\"],\"deptName\":[\"1\"],\"projectGrant\":[\"100000\"],\"schoolRealBudget\":[\"100000\"],\"projectStatus\":[\"1\"],\"projectYear\":[\"2022\"],\"projectPerformance\":[\"3000\"],\"startData\":[\"2022-05-05\"],\"endData\":[\"2022-05-27\"],\"projectType\":[\"校企项目\"],\"xiadadanwei\":[\"\"],\"waibo\":[\"\"],\"hezuofangshi\":[\"0\"],\"level\":[\"0\"]}', '{\n  \"msg\" : \"操作成功\",\n  \"code\" : 0\n}', 0, NULL, '2022-05-29 15:41:21');
 COMMIT;
 
 -- ----------------------------
@@ -3079,7 +3111,7 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', 'admin', '00', '896539265@qq.com', '15888888888', '0', '/profile/avatar/2021/12/03/f111cdbc-3412-4e7e-87a3-1667c3ee6eb9.png', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2022-05-27 13:02:26', '2021-07-31 12:04:05', 'admin', '2021-07-31 12:04:05', '', '2022-05-27 13:02:26', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', 'admin', '00', '896539265@qq.com', '15888888888', '0', '/profile/avatar/2021/12/03/f111cdbc-3412-4e7e-87a3-1667c3ee6eb9.png', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2022-05-29 15:38:40', '2021-07-31 12:04:05', 'admin', '2021-07-31 12:04:05', '', '2022-05-29 15:38:39', '管理员');
 INSERT INTO `sys_user` VALUES (2, 105, 'ry', '王一一', '00', 'ry@qq.com', '15666629654', '1', '', '8b79576611463b00f7eb6abec2d2b482', 'aeec07', '0', '0', '127.0.0.1', '2021-08-26 13:40:11', '2021-07-31 12:04:05', 'admin', '2021-07-31 12:04:05', 'admin', '2021-12-28 21:17:22', '测试员');
 INSERT INTO `sys_user` VALUES (100, 103, '206141115', '时雪磊', '00', '', '18236526020', '0', '', 'c0624e3c212681d720bf26a1cbf164c2', '0bc2c0', '0', '0', '127.0.0.1', '2021-08-26 13:27:07', NULL, 'admin', '2021-08-26 12:58:49', 'admin', '2021-08-26 13:27:07', '');
 INSERT INTO `sys_user` VALUES (101, NULL, '12312312', '123123', '00', '', '', '0', '', '6765c81594317b619b04b5ade3805f0f', 'd28cf6', '0', '2', '', NULL, NULL, 'admin', '2021-10-21 14:58:03', '', NULL, NULL);
@@ -3109,6 +3141,7 @@ CREATE TABLE `sys_user_online` (
 -- Records of sys_user_online
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_user_online` VALUES ('8b7892fa-26b5-4e67-94d2-c23d628686a2', 'admin', '计算机学院', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', 'on_line', '2022-05-29 15:31:32', '2022-05-29 15:40:45', 1800000);
 COMMIT;
 
 -- ----------------------------
