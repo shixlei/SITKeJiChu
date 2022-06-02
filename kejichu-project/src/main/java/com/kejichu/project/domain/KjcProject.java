@@ -32,9 +32,6 @@ public class KjcProject extends BaseEntity
     @Excel(name = "负责人名字")
     private String projectLeader;
 
-    /** 负责人工号 */
-    @Excel(name = "负责人工号")
-    private Long userId;
 
     /** 所属学院 */
     @Excel(name = "所属学院", readConverterExp =
@@ -135,14 +132,6 @@ public class KjcProject extends BaseEntity
         return projectLeader;
     }
 
-    public void setUserId(Long userId)
-    {
-        this.userId = userId;
-    }
-    public Long getUserId() 
-    {
-        return userId;
-    }
 
     public void setDeptName(String deptName)
     {
@@ -265,7 +254,6 @@ public class KjcProject extends BaseEntity
             .append("projectBianhao", getProjectBianhao())
             .append("projectName", getProjectName())
             .append("projectLeader", getProjectLeader())
-            .append("userId", getUserId())
             .append("deptName", getDeptName())
             .append("projectGrant", getProjectGrant())
             .append("schoolRealBudget", getSchoolRealBudget())

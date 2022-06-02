@@ -9,7 +9,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="projectBianhao"    column="project_bianhao"    />
         <result property="projectName"    column="project_name"    />
         <result property="projectLeader"    column="project_leader"    />
-        <result property="userId"    column="user_id"    />
         <result property="deptName"    column="dept_name"    />
         <result property="projectGrant"    column="project_grant"    />
         <result property="schoolRealBudget"    column="school_real_budget"    />
@@ -28,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectKjcProjectVo">
-        select project_id, project_bianhao, project_name, project_leader, user_id, dept_name, project_grant, school_real_budget,project_status,project_year, project_performance,start_data, end_data, project_type, xiadadanwei, waibo, hezuofangshi, level, create_by, create_time from kjc_project
+        select project_id, project_bianhao, project_name, project_leader,  dept_name, project_grant, school_real_budget,project_status,project_year, project_performance,start_data, end_data, project_type, xiadadanwei, waibo, hezuofangshi, level, create_by, create_time from kjc_project
     </sql>
 
     <select id="selectKjcProjectList2" parameterType="KjcProject" resultMap="KjcProjectResult">
@@ -37,7 +36,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectBianhao != null  and projectBianhao != ''"> and project_bianhao = #{projectBianhao}</if>
             <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
             <if test="projectLeader != null  and projectLeader != ''"> and project_leader = #{projectLeader}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
             <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
             <if test="projectGrant != null "> and project_grant = #{projectGrant}</if>
             <if test="schoolRealBudget != null "> and school_real_budget = #{schoolRealBudget}</if>
@@ -69,7 +67,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectBianhao != null  and projectBianhao != ''"> and p.project_bianhao = #{projectBianhao}</if>
             <if test="projectName != null  and projectName != ''"> and p.project_name like concat('%', #{projectName}, '%')</if>
             <if test="projectLeader != null  and projectLeader != ''"> and p.project_leader = #{projectLeader}</if>
-            <if test="userId != null "> and p.user_id = #{userId}</if>
             <if test="deptName != null  and deptName != ''"> and p.dept_name like concat('%', #{deptName}, '%')</if>
             <if test="projectGrant != null "> and p.project_grant = #{projectGrant}</if>
             <if test="schoolRealBudget != null">and p.school_real_budget=#{schoolRealBudget}</if>
@@ -110,7 +107,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectBianhao != null and projectBianhao != ''">project_bianhao,</if>
             <if test="projectName != null">project_name,</if>
             <if test="projectLeader != null and projectLeader != ''">project_leader,</if>
-            <if test="userId != null">user_id,</if>
             <if test="deptName != null">dept_name,</if>
             <if test="projectGrant != null">project_grant,</if>
             <if test="schoolRealBudget != null">school_real_budget,</if>
@@ -156,7 +152,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectBianhao != null and projectBianhao != ''">project_bianhao = #{projectBianhao},</if>
             <if test="projectName != null">project_name = #{projectName},</if>
             <if test="projectLeader != null and projectLeader != ''">project_leader = #{projectLeader},</if>
-            <if test="userId != null">user_id = #{userId},</if>
             <if test="deptName != null">dept_name = #{deptName},</if>
             <if test="projectGrant != null">project_grant = #{projectGrant},</if>
             <if test="schoolRealBudget != null">school_real_budget = #{schoolRealBudget},</if>
