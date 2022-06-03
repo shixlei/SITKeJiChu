@@ -82,11 +82,11 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="project:xnproject:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-info" onclick="$.table.importExcel()">
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="project:xnproject:import">
                     <i class="fa fa-upload"></i> 导入
                 </a>
 
-                <a class="btn btn-warning multiple disabled" onclick="exportExcel()" shiro:hasPermission="project:grant:export">
+                <a class="btn btn-warning multiple disabled" onclick="exportExcel()" shiro:hasPermission="project:xnproject:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -100,9 +100,7 @@
         var editFlag = [[${@permission.hasPermi('project:xnproject:edit')}]];
         var removeFlag = [[${@permission.hasPermi('project:xnproject:remove')}]];
         var xnSchoolDatas = [[${@dict.getType('kjc-college')}]];
-        var xnProjectStatusDatas = [[${@dict.getType('<!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="project:xnproject:export">
-                    <i class="fa fa-download"></i> 导出
-                </a>-->kjc_project_status')}]];
+        var xnProjectStatusDatas = [[${@dict.getType('kjc_project_status')}]];
         var xnProjectTypeDatas = [[${@dict.getType('kjc-project-class')}]];
         var prefix = ctx + "project/xnproject";
 
