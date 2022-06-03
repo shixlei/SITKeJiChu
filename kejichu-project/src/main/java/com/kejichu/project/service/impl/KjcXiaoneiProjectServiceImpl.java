@@ -1,6 +1,12 @@
 package com.kejichu.project.service.impl;
 
 import java.util.List;
+
+import com.kejichu.common.exception.ServiceException;
+import com.kejichu.common.utils.StringUtils;
+import com.kejichu.project.domain.KjcGrant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kejichu.project.mapper.KjcXiaoneiProjectMapper;
@@ -17,6 +23,7 @@ import com.kejichu.common.core.text.Convert;
 @Service
 public class KjcXiaoneiProjectServiceImpl implements IKjcXiaoneiProjectService 
 {
+    private static final Logger log = LoggerFactory.getLogger(KjcXiaoneiProjectServiceImpl.class);
     @Autowired
     private KjcXiaoneiProjectMapper kjcXiaoneiProjectMapper;
 
@@ -56,6 +63,70 @@ public class KjcXiaoneiProjectServiceImpl implements IKjcXiaoneiProjectService
         return kjcXiaoneiProjectMapper.insertKjcXiaoneiProject(kjcXiaoneiProject);
     }
 
+    /**
+     * 晓聂项目导入记录
+     * @param xnProjectList
+     * @return 导入结果
+     */
+    @Override
+    public String importXnProject(List<KjcXiaoneiProject> xnProjectList, Boolean isUpdateSupport , String kjcuser){
+        if (StringUtils.isNull(xnProjectList) ||xnProjectList.size() == 0)
+        {
+            throw new ServiceException("导入项目数据不能为空！");
+        }
+        int successNum = 0;
+        int failureNum = 0;
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
+        for (KjcXiaoneiProject xnproject : xnProjectList)
+        {
+            try
+            {
+                // 验证是否存在这个项目
+
+                KjcXiaoneiProject x = kjcXiaoneiProjectMapper.selectKjcXiaoneiProjectByXnProjectId(xnproject.getXnProjectId());
+
+                if (StringUtils.isNull(x))
+                {
+                    this.insertKjcXiaoneiProject(xnproject);
+                    successNum++;
+                    successMsg.append("<br/>" + successNum + "、项目" + xnproject.getXnProjectBianhao()+ " 导入成功");
+                }
+                else if (isUpdateSupport)
+                {
+                    this.updateKjcXiaoneiProject(xnproject);
+                    successNum++;
+                    successMsg.append("<br/>" + successNum + "、项目" + xnproject.getXnProjectBianhao()+ " 更新成功");
+                }
+                else if(StringUtils.isNotNull(x))
+                {
+                    failureNum++;
+                    // successMsg.append("<br/>项目 " + project.getProjectBianhao()+ " 已存在");
+                    failureMsg.append("<br/>项目 " + xnproject.getXnProjectBianhao()+ " 同一项目的批次已存在");
+                }
+
+            }
+            catch (Exception e)
+            {
+                failureNum++;
+                String msg = "<br/>" + failureNum + "、项目" + xnproject.getXnProjectBianhao() + " 导入失败";
+                //failureMsg.append(msg + e.getMessage());
+                failureMsg.append(msg);
+                log.error(msg, e); //日志启用
+            }
+        }
+
+        if (failureNum > 0)
+        {
+            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 个项目已存在，");
+            throw new ServiceException(failureMsg.toString());
+        }
+        else
+        {
+            successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+        }
+        return successMsg.toString();
+    };
     /**
      * 修改校内项目
      * 
