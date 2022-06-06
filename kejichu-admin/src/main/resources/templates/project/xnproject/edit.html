@@ -44,6 +44,7 @@
                 <label class="col-sm-3 control-label">批准经费：</label>
                 <div class="col-sm-8">
                     <input name="xnProjectGrant" th:field="*{xnProjectGrant}" class="form-control" type="text">
+                    <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
             <div class="form-group">    
@@ -85,6 +86,7 @@
                 <label class="col-sm-3 control-label">预算：</label>
                 <div class="col-sm-8">
                     <input name="xnBudget" th:field="*{xnBudget}" class="form-control" type="text">
+                    <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
         </form>
@@ -96,6 +98,46 @@
         $("#form-xnproject-edit").validate({
             focusCleanup: true
         });
+
+        var x = document.querySelectorAll(".form-control");
+        var i;
+        for (i = 1; i < x.length; i++) {
+            if (i==5||i==9){
+                var precapital;
+                x[i].addEventListener('focus', function () {
+                    if (this.value == '0.00') {
+                        this.value = '';
+                    } else {
+                        this.value = this.value.replace(/\.00/, '').replace(/(\.\d)0/, '$1');
+                    }
+                    precapital = this.value;
+                });
+                x[i].addEventListener('keyup', function () {
+
+                    this.value = this.value.replace(/^[\.]/, '').replace(/[^\d.]/g, '');
+                    if (this.value.split(".").length - 1 > 1) {
+                        this.value = precapital;
+                    }
+                    precapital = this.value;
+                });
+                x[i].addEventListener('blur', function () {
+                    this.value = this.value.replace(/[\.]$/, '');
+                    this.value = this.value.replace(/(.*)\.([\d]{2})(\d*)/g, '$1.$2');
+                    this.value = Number(this.value).toFixed(2);
+                    var logNum = this.value.toString();
+                    if (logNum.match(/\./g) != null) {
+                        integerNum = parseInt(logNum).toString().replace(/\d(?=(\d{3})+$)/g, '$&,');
+                        decimalNum = '.' + logNum.replace(/(.*)\.(.*)/g, '$2');
+                        document.querySelector(".logbox").innerHTML = integerNum + decimalNum;
+                    } else {
+                        document.querySelector(".logbox").innerHTML = logNum.replace(/\d(?=(\d{3})+$)/g, '$&,');
+                    }
+                })
+            }
+            else{
+                continue
+            }
+        };
 
         function submitHandler() {
             if ($.validate.form()) {
