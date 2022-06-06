@@ -127,7 +127,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
             <if test="projectName != null">#{projectName},</if>
             <if test="projectLeader != null and projectLeader != ''">#{projectLeader},</if>
-            <if test="userId != null">#{userId},</if>
             <if test="deptName != null">#{deptName},</if>
             <if test="projectGrant != null">#{projectGrant},</if>
             <if test="schoolRealBudget != null">#{schoolRealBudget},</if>

@@ -1,6 +1,8 @@
 package com.kejichu.project.service;
 
 import java.util.List;
+
+
 import com.kejichu.project.domain.KjcXiaoneiProject;
 
 /**
@@ -34,6 +36,11 @@ public interface IKjcXiaoneiProjectService
      * @return 结果
      */
     public int insertKjcXiaoneiProject(KjcXiaoneiProject kjcXiaoneiProject);
+/**
+ *校内项目导入
+ *
+ */
+    public String importXnProject(List<KjcXiaoneiProject> xnProjectList, Boolean isUpdateSupport , String kjcuser);
 
     /**
      * 修改校内项目
