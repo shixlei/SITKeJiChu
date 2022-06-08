@@ -128,18 +128,28 @@
             userEntity = JSON.parse(userJsonStr);
             var sum=userEntity.length
             var PJ = document.getElementById("projectBianhao").value
-            var Pici=1
+            var arr=[1]
             for(i=0;i<sum;i++){
                 if(userEntity[i].projectBianhao==PJ){
-                    Pici = Pici+1
+                    arr.push(userEntity[i].grantPici)
+                    console.log(arr)
                 }
                 else{
                     continue
                 }
             }
-            document.getElementById('grantPici').readOnly = false;
-            document.getElementById('grantPici').value = Pici;
-            document.getElementById('grantPici').readOnly = true;
+            arr.sort();
+            var Pici=arr[arr.length-1]
+            if(arr.length==1){
+                document.getElementById('grantPici').readOnly = false;
+                document.getElementById('grantPici').value = Pici;
+                document.getElementById('grantPici').readOnly = true;
+            }
+            else{
+                document.getElementById('grantPici').readOnly = false;
+                document.getElementById('grantPici').value = Pici+1;
+                document.getElementById('grantPici').readOnly = true;
+            }
         }
 
         function submitHandler() {
