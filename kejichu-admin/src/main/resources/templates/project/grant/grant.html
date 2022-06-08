@@ -85,14 +85,18 @@
 
         $(function() {
             var options = {
+                id: 'bootstrap-table',
                 url: prefix + "/list",
+                pagination : true,//是否分页
+                sidePagination : 'client',//server:服务器端分页|client：前端分页
+                pageSize : 10,
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 importUrl: prefix + "/importGrant",
                 importTemplateUrl: prefix + "/importTemplate",
-                modalName: "拨款记录",
+                modalName: "projectBianhao",
                 columns: [{
                     checkbox: true
                 },
@@ -107,7 +111,7 @@
                 },
                 {
                     field: 'grantPici',
-                    title: '拨款批次'
+                    title: '拨款批次',
                 },
                 {
                     field: 'grantTime',
@@ -141,6 +145,12 @@
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.grantId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.grantId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
+                    }
+                },
+                {
+                    formatter: function (value, row, index) {
+                        var rowNum=$('#bootstrap-table').bootstrapTable('getData',false);
+                        sessionStorage.setItem('user', JSON.stringify(rowNum));
                     }
                 }]
             };
