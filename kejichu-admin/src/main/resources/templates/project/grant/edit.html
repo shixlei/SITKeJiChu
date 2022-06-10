@@ -43,14 +43,14 @@
                 </div>
             </div>-->
             <div class="form-group">    
-                <label class="col-sm-3 control-label">绩效：</label>
+                <label class="col-sm-3 control-label">拨款绩效：</label>
                 <div class="col-sm-8">
                     <input  id="jixiao" name="jixiao" th:field="*{jixiao}" class="form-control" type="text">
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">管理费比例：</label>
+                <label class="col-sm-3 control-label">管理费比例(%)：</label>
                 <div class="col-sm-8">
                     <input id="glfbili" name="glfbili" class="form-control" type="number">
                 </div>
@@ -125,9 +125,24 @@
         };
 
         function submitHandler() {
+            if(!judgenum()){
+                return;
+            }
             if ($.validate.form()) {
                 $.operate.save(prefix + "/edit", $('#form-grant-edit').serialize());
             }
+        }
+        function judgenum(){
+            let grantmoney =$("#grantMoney").val();
+            let jixiao=$("#jixiao").val();
+            let guanlifei=$("#guanlifei").val();
+
+            if(grantmoney&&jixiao&&guanlifei&&(eval(grantmoney)<eval(jixiao)+eval(guanlifei))){
+                layer.msg("绩效与管理费之和不可大于拨款金额", {icon : 2, time: 1000});
+                return false;
+            }
+            return true;
+
         }
 
         $("input[name='grantTime']").datetimepicker({
