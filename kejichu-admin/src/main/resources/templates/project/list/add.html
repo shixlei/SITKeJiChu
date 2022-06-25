@@ -59,7 +59,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">年份：</label>
                 <div class="col-sm-8">
-                    <input name="projectYear" class="form-control" type="text">
+                    <input id="projectYear" name="projectYear" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">
@@ -178,9 +178,23 @@
         });
 
         function submitHandler() {
+            if(!judgenum()){
+                return;
+            }
             if ($.validate.form()) {
                 $.operate.save(prefix + "/add", $('#form-list-add').serialize());
             }
+        }
+
+        function judgenum(){
+            let projectYear=document.getElementById('projectYear').value;
+            console.log(projectYear)
+            let re=/^[0-9]+.?[0-9]*$/;
+            if(!re.test(projectYear)||eval(projectYear)<1900||eval(projectYear)>4000){
+                layer.msg("年份输入错误", {icon : 2, time: 1000});
+                return false;
+            }
+            return true;
         }
 
         $("input[name='startData']").datetimepicker({
