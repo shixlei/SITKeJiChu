@@ -57,7 +57,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">管理费：</label>
                 <div class="col-sm-8">
-                    <input id="guanlifei" name="guanlifei" class="form-control" type="text" readonly>
+                    <input id="guanlifei" name="guanlifei" class="form-control" type="text" value="0" readonly>
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
@@ -214,12 +214,11 @@
                 }
             }
             for(i=0;i<projectlist.length;i++){
-                if(projectlist[i].projectBianhao==projectBianhao&&(eval(projectlist[i].projectGrant)<eval(sumMoney)+eval(grantmoney))){
-                    layer.msg("拨款总和大于拨款金额", {icon : 2, time: 1000});
+                if(projectlist[i].projectBianhao==projectBianhao&&(eval(projectlist[i].schoolRealBudget)<eval(sumMoney)+eval(grantmoney))){
+                    layer.msg("拨款总和大于该项目实际在校经费", {icon : 2, time: 1000});
                     return false;
                 }
             }
-
             if(grantmoney&&jixiao&&guanlifei&&(eval(grantmoney)<eval(jixiao)+eval(guanlifei))){
                 layer.msg("绩效与管理费之和不可大于项目批准经费", {icon : 2, time: 1000});
                 return false;
