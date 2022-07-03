@@ -214,8 +214,8 @@
                 }
             }
             for(i=0;i<projectlist.length;i++){
-                if(projectlist[i].projectBianhao==projectBianhao&&(eval(projectlist[i].schoolRealBudget)<eval(sumMoney)+eval(grantmoney))){
-                    layer.msg("拨款总和大于该项目实际在校经费", {icon : 2, time: 1000});
+                if(projectlist[i].projectBianhao==projectBianhao&&(eval(projectlist[i].projectGrant)<eval(sumMoney)+eval(grantmoney))){
+                    layer.msg("拨款总和大于该项目批准经费", {icon : 2, time: 1000});
                     return false;
                 }
             }
