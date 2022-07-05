@@ -94,6 +94,7 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
+        var addFlag = [[${@permission.hasPermi('project:grant:edit')}]];
         var editFlag = [[${@permission.hasPermi('project:list:edit')}]];
         var removeFlag = [[${@permission.hasPermi('project:list:remove')}]];
         var deptNameDatas = [[${@dict.getType('kjc-college')}]];
@@ -101,6 +102,8 @@
         var hezuofangshiDatas = [[${@dict.getType('kjc_project_hezuo')}]];
         var levelDatas = [[${@dict.getType('kjc_project_jibie')}]];
         var prefix = ctx + "project/list";
+        var prefix1 = ctx + "project/grant";
+        var prefix2 = ctx + "project/jixiao";
 
         $(function() {
             var options = {
@@ -111,6 +114,9 @@
                 exportUrl: prefix + "/export",
                 importUrl: prefix + "/importPro",
                 importTemplateUrl: prefix + "/importTemplate",
+                updateUrl2: prefix2 + "/edit/{id}",
+                JixiaoCreateUrl: prefix1 + "/add",
+                BoKuanCreateUrl: prefix2 + "/add",
                 modalName: "项目信息",
                 columns: [{
                     checkbox: true
@@ -179,7 +185,7 @@
                 },
                 {
                     field: 'xiadadanwei',
-                    title: '下达单位'
+                    title: '项目来源'
                 },
                 {
                     field: 'waibo',
@@ -212,6 +218,8 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.JixiaoAdd(\'' + row.projectId + '\');sessionStorage.setItem(\'user\',\'' + row.projectBianhao + '\');"><i class="fa fa-edit"></i>拨款</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.BoKuan(\'' + row.projectId + '\');sessionStorage.setItem(\'user\',\'' + row.projectBianhao + '\');sessionStorage.setItem(\'projectPerformance\',\'' + row.projectPerformance + '\');"><i class="fa fa-edit"></i>绩效</a> ');
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.projectId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.projectId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
