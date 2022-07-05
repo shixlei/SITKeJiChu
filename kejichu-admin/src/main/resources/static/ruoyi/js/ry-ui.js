@@ -1082,6 +1082,15 @@ var table = {
                 table.set();
                 $.modal.open("添加" + table.options.modalName, $.operate.addUrl(id));
             },
+            // 项目列表中添加绩效
+            BoKuan: function (id,BH){
+                table.set();
+                $.modal.open("添加" + table.options.modalName, $.operate.BoKuanAddUrl(id,BH));
+            },
+            JixiaoAdd: function (id){
+                table.set();
+                $.modal.open("添加" + table.options.modalName, $.operate.JixiaoAddUrl(id));
+            },
             // 添加信息，以tab页展现
             addTab: function (id) {
                 table.set();
@@ -1095,6 +1104,15 @@ var table = {
             // 添加访问地址
             addUrl: function(id) {
                 var url = $.common.isEmpty(id) ? table.options.createUrl.replace("{id}", "") : table.options.createUrl.replace("{id}", id);
+                return url;
+            },
+            //项目列表中添加拨款的访问地址
+            JixiaoAddUrl: function(id) {
+                var url = $.common.isEmpty(id) ? table.options.JixiaoCreateUrl.replace("{id}", "") : table.options.JixiaoCreateUrl.replace("{id}", id);
+                return url;
+            },
+            BoKuanAddUrl: function(id,BH) {
+                var url = $.common.isEmpty(id) ? table.options.BoKuanCreateUrl.replace("{id}", "") : table.options.BoKuanCreateUrl.replace("{id}", id);
                 return url;
             },
             // 修改信息
