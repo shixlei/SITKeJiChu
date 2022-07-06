@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">所属学院：</label>
+                <label class="col-sm-3 control-label">学院：</label>
                 <div class="col-sm-8">
                     <select name="deptName" class="form-control m-b" th:with="type=${@dict.getType('kjc-college')}">
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{deptName}"></option>
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">下达单位：</label>
+                <label class="col-sm-3 control-label">款项来源：</label>
                 <div class="col-sm-8">
                     <input name="xiadadanwei" th:field="*{xiadadanwei}" class="form-control" type="text">
                 </div>
@@ -121,6 +121,12 @@
                     <select name="level" class="form-control m-b" th:with="type=${@dict.getType('kjc_project_jibie')}">
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{level}"></option>
                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="projectRemark" class="form-control">[[*{projectRemark}]]</textarea>
                 </div>
             </div>
         </form>

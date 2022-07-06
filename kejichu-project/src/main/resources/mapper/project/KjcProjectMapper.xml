@@ -24,10 +24,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="level"    column="level"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
+        <result property="projectRemark"    column="project_remark"    />
     </resultMap>
 
     <sql id="selectKjcProjectVo">
-        select project_id, project_bianhao, project_name, project_leader,  dept_name, project_grant, school_real_budget,project_status,project_year, project_performance,start_data, end_data, project_type, xiadadanwei, waibo, hezuofangshi, level, create_by, create_time from kjc_project
+        select project_id, project_bianhao, project_name, project_leader,  dept_name, project_grant, school_real_budget,project_status,project_year, project_performance,start_data, end_data, project_type, xiadadanwei, waibo, hezuofangshi, level, create_by, create_time,project_remark from kjc_project
     </sql>
 
     <select id="selectKjcProjectList2" parameterType="KjcProject" resultMap="KjcProjectResult">
@@ -51,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="level != null  and level != ''"> and level = #{level}</if>
             <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
             <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
+            <if test="projectRemark != null  and projectRemark != ''"> and project_remark = #{projectRemark}</if>
         </where>
         order by  start_data desc
     </select>
@@ -82,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="level != null  and level != ''"> and p.level = #{level}</if>
             <if test="createBy != null  and createBy != ''"> and p.create_by = #{createBy}</if>
             <if test="createTime != null "> and p.create_time like concat('%', #{createTime}, '%')</if>
+            <if test="projectRemark != null  and projectRemark != ''"> and project_remark = #{projectRemark}</if>
         </where>
         order by  start_data
     </select>
@@ -122,6 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="level != null">level,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
+            <if test="projectRemark != null">project_remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
@@ -142,6 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="level != null">#{level},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
+            <if test="projectRemark != null">#{projectRemark},</if>
          </trim>
     </insert>
 
@@ -166,6 +171,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="level != null">level = #{level},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="projectRemark != null">project_remark =#{projectRemark},</if>
         </trim>
         where project_id = #{projectId}
     </update>
