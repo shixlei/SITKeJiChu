@@ -26,6 +26,10 @@ public class KjcGrant extends BaseEntity
     @Excel(name = "项目编号")
     private String projectBianhao;
 
+    /** 项目名称 */
+    @Excel(name = "项目名称")
+    private String projectName;
+
     /** 拨款批次 */
     @Excel(name = "拨款批次")
     private Long grantPici;
@@ -55,6 +59,21 @@ public class KjcGrant extends BaseEntity
     @Excel(name = "负责人姓名")
     private String grantManager;
 
+    /** 学院 */
+    @Excel(name = "学院",readConverterExp =
+            "1=计算机科学与信息工程学院,2=化工与环境工程学院,3=材料科学与工程学院," +
+                    "4=城市建设与安全工程学院,5=机械工程学院,6=电气与电子工程学院," +
+                    "7=经济与管理学院,8=人文学院,9=艺术与设计学院,10=生态技术与工程学院," +
+                    "11=外国语学院,12=理学院,13=香料香精化妆品学部（香料香精技术与工程学院）," +
+                    "14=轨道交通学院,15=体育教育部,16=工程创新学院,17=高等职业学院,18=继续教育学院，" +
+                    "19=马克思主义学院,20=国际教育中心,21=香料香精化妆品学部（国际化妆品学院）," +
+                    "22=香料香精化妆品学部（东方美谷研究院）,23=香料香精化妆品省部共建协同创新中心")
+    private String grantAcademy;
+
+    /** 备注 */
+    @Excel(name = "备注")
+    private String grantRemark;
+
     public void setGrantId(Long grantId) 
     {
         this.grantId = grantId;
@@ -76,6 +95,16 @@ public class KjcGrant extends BaseEntity
     public void setGrantPici(Long grantPici) 
     {
         this.grantPici = grantPici;
+    }
+
+    public void setProjectName(String projectName)
+    {
+        this.projectName = projectName;
+    }
+
+    public String getProjectName()
+    {
+        return projectName;
     }
 
     public Long getGrantPici() 
@@ -127,17 +156,33 @@ public class KjcGrant extends BaseEntity
     {
         return grantLaiyuan;
     }
-    public void setGrantManager(String grantManager)
-    { this.grantManager = grantManager; }
+    public void setGrantManager(String grantManager) { this.grantManager = grantManager; }
+    public String getGrantManager() { return grantManager; }
+    public void setGrantAcademy(String grantAcademy)
+    {
+        this.grantAcademy = grantAcademy;
+    }
 
-    public String getGrantManager()
-    { return grantManager; }
+    public String getGrantAcademy()
+    {
+        return grantAcademy;
+    }
+    public void setGrantRemark(String grantRemark)
+    {
+        this.grantRemark = grantRemark;
+    }
+
+    public String getGrantRemark()
+    {
+        return grantRemark;
+    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("grantId", getGrantId())
             .append("projectBianhao", getProjectBianhao())
+            .append("projectName", getProjectName())
             .append("grantPici", getGrantPici())
             .append("grantTime", getGrantTime())
             .append("grantMoney", getGrantMoney())
@@ -145,6 +190,8 @@ public class KjcGrant extends BaseEntity
             .append("guanlifei", getGuanlifei())
             .append("grantLaiyuan", getGrantLaiyuan())
             .append("grantManager", getGrantManager())
+            .append("grantAcademy", getGrantAcademy())
+            .append("grantRemark", getGrantRemark())
             .toString();
     }
 }
