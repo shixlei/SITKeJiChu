@@ -16,6 +16,10 @@
                                 <input type="text" name="projectBianhao"/>
                             </li>
                             <li>
+                                <label>项目名称：</label>
+                                <input type="text" name="projectName"/>
+                            </li>
+                            <li>
                                 <label>拨款批次：</label>
                                 <input type="text" name="grantPici"/>
                             </li>
@@ -40,8 +44,15 @@
                                 <input type="text" name="grantLaiyuan"/>
                             </li>
                             <li>
-                                <label>负责人姓名：</label>
+                                <label>负责人：</label>
                                 <input type="text" name="grantManager"/>
+                            </li>
+                            <li>
+                                <label>学院：</label>
+                                <select name="grantAcademy" th:with="type=${@dict.getType('kjc-college')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -81,6 +92,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('project:grant:edit')}]];
         var removeFlag = [[${@permission.hasPermi('project:grant:remove')}]];
+        var grantAcademyDatas = [[${@dict.getType('kjc-college')}]];
         var prefix = ctx + "project/grant";
 
         $(function() {
@@ -110,6 +122,10 @@
                     title: '项目编号'
                 },
                 {
+                    field: 'projectName',
+                    title: '项目名称'
+                },
+                {
                     field: 'grantPici',
                     title: '拨款批次',
                 },
@@ -135,7 +151,18 @@
                 },
                 {
                     field: 'grantManager',
-                    title: '负责人姓名'
+                    title: '&nbsp&nbsp负责人'
+                },
+                {
+                    field: 'grantAcademy',
+                    title: '&nbsp&nbsp学院&nbsp&nbsp',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(grantAcademyDatas, value);
+                    }
+                },
+                {
+                    field: 'grantRemark',
+                    title: '备注'
                 },
                 {
                     title: '操作',

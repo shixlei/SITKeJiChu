@@ -19,7 +19,7 @@
                                 <input type="text" name="projectLeader"/>
                             </li>
                             <li>
-                                <label>所属学院：</label>
+                                <label>学院：</label>
                                 <select name="deptName" th:with="type=${@dict.getType('kjc-college')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
@@ -41,7 +41,7 @@
                                 <input type="text" name="projectType"/>
                             </li>
                             <li>
-                                <label>下达单位：</label>
+                                <label>款项来源：</label>
                                 <input type="text" name="xiadadanwei"/>
                             </li>
                             <li>
@@ -143,7 +143,7 @@
                 },
                 {
                     field: 'deptName',
-                    title: '所属学院',
+                    title:  '&nbsp&nbsp学院&nbsp&nbsp',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(deptNameDatas, value);
                     }
@@ -185,7 +185,7 @@
                 },
                 {
                     field: 'xiadadanwei',
-                    title: '项目来源'
+                    title: '款项来源'
                 },
                 {
                     field: 'waibo',
@@ -212,6 +212,10 @@
                 {
                     field: 'createTime',
                     title: '登记日期'
+                },
+                {
+                    field: 'projectRemark',
+                    title: '备注'
                 },
                 {
                     title: '操作',

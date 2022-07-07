@@ -15,6 +15,10 @@
                                 <input type="text" name="projectBianhao"/>
                             </li>
                             <li>
+                                <label>项目名称：</label>
+                                <input type="text" name="projectName"/>
+                            </li>
+                            <li>
                                 <label>绩效总金额：</label>
                                 <input type="text" name="jixiaoMoney"/>
                             </li>
@@ -37,6 +41,14 @@
                             <li>
                                 <label>绩效未发放金额：</label>
                                 <input type="text" name="jixiaoWeifafang"/>
+                            </li>
+                            <li>
+                                <label>学院：</label>
+                                <input type="text" name="jixiaoAcademy"/>
+                            </li>
+                            <li>
+                                <label>负责人：</label>
+                                <input type="text" name="jixiaoManager"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -77,6 +89,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('project:jixiao:edit')}]];
         var removeFlag = [[${@permission.hasPermi('project:jixiao:remove')}]];
+        var jixiaoAcademyDatas = [[${@dict.getType('kjc-college')}]];
         var prefix = ctx + "project/jixiao";
 
         $(function() {
@@ -103,6 +116,10 @@
                     title: '项目编号'
                 },
                 {
+                    field: 'projectName',
+                    title: '项目名称'
+                },
+                {
                     field: 'jixiaoMoney',
                     title: '绩效总金额'
                 },
@@ -125,6 +142,21 @@
                 {
                     field: 'jixiaoWeifafang',
                     title: '绩效未发放金额'
+                },
+                {
+                    field: 'jixiaoAcademy',
+                    title: '&nbsp&nbsp学院&nbsp&nbsp',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(jixiaoAcademyDatas, value);
+                    }
+                },
+                {
+                    field: '&nbsp&nbspjixiaoManager',
+                    title: '负责人'
+                },
+                {
+                    field: 'jixiaoRemark',
+                    title: '备注'
                 },
                 {
                     title: '操作',

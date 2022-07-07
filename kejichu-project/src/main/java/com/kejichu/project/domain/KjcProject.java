@@ -95,6 +95,10 @@ public class KjcProject extends BaseEntity
             "4=省部级转入,5=一般项目")
     private String level;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String projectRemark;
+
 
     public void setProjectId(Long projectId) 
     {
@@ -247,6 +251,16 @@ public class KjcProject extends BaseEntity
         return level;
     }
 
+    public void setProjectRemark(String projectRemark)
+    {
+        this.projectRemark = projectRemark;
+    }
+
+    public String getProjectRemark()
+    {
+        return projectRemark;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -269,6 +283,7 @@ public class KjcProject extends BaseEntity
             .append("level", getLevel())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
+            .append("projectRemark", getProjectRemark())
             .toString();
     }
 }
