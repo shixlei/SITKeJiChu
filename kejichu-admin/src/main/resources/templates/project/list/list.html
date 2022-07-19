@@ -118,6 +118,8 @@
                 JixiaoCreateUrl: prefix1 + "/add",
                 BoKuanCreateUrl: prefix2 + "/add",
                 modalName: "项目信息",
+                modalName1: "拨款信息",
+                modalName2: "绩效信息",
                 columns: [{
                     checkbox: true
                 },
@@ -223,7 +225,7 @@
                     formatter: function(value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.JixiaoAdd(\'' + row.projectId + '\');sessionStorage.setItem(\'user\',\'' + row.projectBianhao + '\');"><i class="fa fa-edit"></i>拨款</a> ');
-                        actions.push('<a class="btn btn-success btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.BoKuan(\'' + row.projectId + '\');sessionStorage.setItem(\'user\',\'' + row.projectBianhao + '\');sessionStorage.setItem(\'projectPerformance\',\'' + row.projectPerformance + '\');"><i class="fa fa-edit"></i>绩效</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.BoKuan(\'' + row.projectId + '\');sessionStorage.setItem(\'user\',\'' + row.projectBianhao + '\');sessionStorage.setItem(\'projectPerformance\',\'' + row.projectPerformance + '\');sessionStorage.setItem(\'projectName\',\'' + row.projectName + '\');sessionStorage.setItem(\'projectLeader\',\'' + row.projectLeader + '\');"><i class="fa fa-edit"></i>绩效</a> ');
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.projectId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.projectId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
