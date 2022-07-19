@@ -1085,11 +1085,11 @@ var table = {
             // 项目列表中添加绩效
             BoKuan: function (id,BH){
                 table.set();
-                $.modal.open("添加" + table.options.modalName, $.operate.BoKuanAddUrl(id,BH));
+                $.modal.open("设置" + table.options.modalName2, $.operate.BoKuanAddUrl(id,BH));
             },
             JixiaoAdd: function (id){
                 table.set();
-                $.modal.open("添加" + table.options.modalName, $.operate.JixiaoAddUrl(id));
+                $.modal.open("设置" + table.options.modalName1, $.operate.JixiaoAddUrl(id));
             },
             // 添加信息，以tab页展现
             addTab: function (id) {
@@ -1130,6 +1130,20 @@ var table = {
                     $.modal.open("修改" + table.options.modalName, $.operate.editUrl(id));
                 }
             },
+            edit1: function(id) {
+                table.set();
+                if($.common.isEmpty(id) && table.options.type == table_type.bootstrapTreeTable) {
+                    var row = $("#" + table.options.id).bootstrapTreeTable('getSelections')[0];
+                    if ($.common.isEmpty(row)) {
+                        $.modal.alertWarning("请至少选择一条记录");
+                        return;
+                    }
+                    var url = table.options.updateUrl.replace("{id}", row[table.options.uniqueId]);
+                    $.modal.open("修改" + table.options.modalName, url);
+                } else {
+                    $.modal.open("设置" + table.options.modalName2, $.operate.editUrl1(id));
+                }
+            },
             // 修改信息，以tab页展现
             editTab: function(id) {
                 table.set();
@@ -1168,6 +1182,20 @@ var table = {
                         return;
                     }
                     url = table.options.updateUrl.replace("{id}", id);
+                }
+                return url;
+            },
+            editUrl1: function(id) {
+                var url = "/404.html";
+                if ($.common.isNotEmpty(id)) {
+                    url = table.options.updateUrl2.replace("{id}", id);
+                } else {
+                    var id = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+                    if (id.length == 0) {
+                        $.modal.alertWarning("请至少选择一条记录");
+                        return;
+                    }
+                    url = table.options.updateUrl2.replace("{id}", id);
                 }
                 return url;
             },
