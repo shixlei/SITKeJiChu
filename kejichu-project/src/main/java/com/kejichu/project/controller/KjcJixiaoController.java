@@ -163,10 +163,10 @@ public class KjcJixiaoController extends BaseController
     /**
      * 修改绩效记录
      */
-    @GetMapping("/edit/{jixiaoId}")
-    public String edit(@PathVariable("jixiaoId") Long jixiaoId, ModelMap mmap)
+    @GetMapping("/edit/{projectBianhao}")
+    public String edit(@PathVariable("projectBianhao") String projectBianhao, ModelMap mmap)
     {
-        KjcJixiao kjcJixiao = kjcJixiaoService.selectKjcJixiaoByJixiaoId(jixiaoId);
+        KjcJixiao kjcJixiao = kjcJixiaoService.selectKjcJixiaoByprojectBianhao(projectBianhao);
         mmap.put("kjcJixiao", kjcJixiao);
         return prefix + "/edit";
     }
