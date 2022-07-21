@@ -249,7 +249,7 @@
 
             for(i=0;i<GrantList().length;i++){//判断批次问题
                 if(GrantList()[i].projectBianhao==projectBianhao&&GrantList()[i].grantPici==grantPici){
-                    layer.msg("拨款批次不能重复", {icon : 2, time: 1000});
+                    layer.msg("拨款批次不能重复", {icon : 2, time: 2000});
                     return false;
                 }
                 else{
@@ -267,12 +267,12 @@
             }
             for(i=0;i<ProjectList().length;i++){
                 if(ProjectList()[i].projectBianhao==projectBianhao&&(eval(ProjectList()[i].projectGrant)<eval(sumMoney)+eval(grantmoney))){
-                    layer.msg("拨款总和大于该项目批准经费", {icon : 2, time: 1000});
+                    layer.msg("拨款总和大于该项目批准经费", {icon : 2, time: 2000});
                     return false;
                 }
             }
             if(grantmoney&&jixiao&&guanlifei&&(eval(grantmoney)<eval(jixiao)+eval(guanlifei))){
-                layer.msg("绩效与管理费之和不可大于项目批准经费", {icon : 2, time: 1000});
+                layer.msg("绩效与管理费之和不可大于项目批准经费", {icon : 2, time: 2000});
                 return false;
             }
             return true;

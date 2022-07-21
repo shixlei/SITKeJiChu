@@ -29,7 +29,7 @@
             <div id="LixiangMoney" class="form-group">
                 <label class="col-sm-3 control-label">立项绩效发放金额：</label>
                 <div class="col-sm-8">
-                    <input id="jixiaoLixiangMoney" name="jixiaoLixiangMoney" class="form-control" type="number" onchange="WeifafangMoney()">
+                    <input id="jixiaoLixiangMoney" name="jixiaoLixiangMoney" class="form-control" type="number" onchange="WeifafangMoney(1)">
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div id="JietiMoney" class="form-group">
                 <label class="col-sm-3 control-label">结题绩效发放金额：</label>
                 <div class="col-sm-8">
-                    <input id="jixiaoJietiMoney" name="jixiaoJietiMoney" class="form-control" type="number" onchange="WeifafangMoney()">
+                    <input id="jixiaoJietiMoney" name="jixiaoJietiMoney" class="form-control" type="number" onchange="WeifafangMoney(0)">
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">绩效未发放金额：</label>
                 <div class="col-sm-8">
-                    <input id="jixiaoWeifafang" name="jixiaoWeifafang" class="form-control" type="number">
+                    <input id="jixiaoWeifafang" name="jixiaoWeifafang" class="form-control" type="number" readonly=true>
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
@@ -92,7 +92,6 @@
     <script th:inline="javascript">
         var prefix = ctx + "project/jixiao";
         var prefix1 = ctx + "project/list";
-        var moneytag = 0;
         $("#form-jixiao-add").validate({
             focusCleanup: true
         });
@@ -137,75 +136,7 @@
             }
         };
 
-        sessionStorage.getItem('user');//初始化项目编号内容（如果用户在项目列表中点击绩效，获取当前row内的projectBianhao并赋值）
-        sessionStorage.getItem('projectPerformance');//初始化绩效内容（如果用户在项目列表中点击绩效，获取当前row内的projectPerformance并赋值）
-        sessionStorage.getItem('projectName');//初始化绩效内容（如果用户在项目列表中点击绩效，获取当前row内的projectName并赋值）
-        sessionStorage.getItem('projectLeader');//初始化绩效内容（如果用户在项目列表中点击绩效，获取当前row内的projectLeader并赋值）
-        if(sessionStorage.getItem('user') != null){
-            document.getElementById("projectBianhao").value= sessionStorage.getItem('user');
-            document.getElementById("jixiaoMoney").value= sessionStorage.getItem('projectPerformance');
-            document.getElementById("projectName").value= sessionStorage.getItem('projectName');
-            document.getElementById("jixiaoManager").value= sessionStorage.getItem('projectLeader');
-            sessionStorage.clear()
-        }
-
-        function ProjectList(){//获取从projectlist数据库中的内容
-            let projectlist=[]//获取从projectlist数据库中的内容
-            $.ajax({//通过ajax调取project数据库表中的内容
-                url: prefix1 + "/list",
-                type: "post",
-                dataType: "json",
-                data:{},
-                async: false,
-                success: function(data) {
-                    projectlist=data.rows;
-                }
-            });
-            return projectlist;
-        }
-
-        function JixiaoList(){//获取从grant数据库中的内容
-            let JixiaoList=[];
-            $.ajax({//通过ajax调取grant数据库表中的内容
-                url: prefix + "/list",
-                type: "post",
-                dataType: "json",
-                data:{},
-                async: false,
-                success: function(data) {
-                    JixiaoList=data.rows;
-                }
-            });
-            return JixiaoList;
-        }
-
-        let projectBianhao = document.getElementById("projectBianhao").value
-        console.log(JixiaoList())
-        for(i=0;i<ProjectList().length;i++){
-          if (projectBianhao==ProjectList()[i].projectBianhao){
-                if(ProjectList()[i].projectStatus==2||ProjectList()[i].projectStatus==6){
-                    let LixiangMoney=document.getElementById("LixiangMoney");
-                    let LixiangDate=document.getElementById("LixiangDate");
-                    var parentObj = LixiangMoney.parentNode;//获取div的父对象,并移除
-                    parentObj.removeChild(LixiangMoney);
-                    var parentObj = LixiangDate.parentNode;//获取div的父对象
-                    parentObj.removeChild(LixiangDate);
-                    moneytag=1;
-              }
-                else{
-                    let JietiMoney=document.getElementById("JietiMoney");
-                    let JietiDate=document.getElementById("JietiDate");
-                    var parentObj = JietiMoney.parentNode;//获取div的父对象，并移除
-                    parentObj.removeChild(JietiMoney);
-                    var parentObj = JietiDate.parentNode;//获取div的父对象
-                    parentObj.removeChild(JietiDate);
-                    moneytag=0;
-              }
-          }
-          else continue;
-        }
-
-        function WeifafangMoney(){//用户在立项金额/结题金额输入时，系统进行计算，得出未发放金额并打印，小数点保留后两位
+        function WeifafangMoney(moneytag){//用户在立项金额/结题金额输入时，系统进行计算，得出未发放金额并打印，小数点保留后两位
             let projectBianhao=document.getElementById("projectBianhao").value;
             let jixiaoMoney=document.getElementById("jixiaoMoney").value;
             let jixiaoLixiangMoney=0;
@@ -213,24 +144,12 @@
             let jixiaoJietiMoney=0;
             let jietiKuang=0;
             let WeifafangMoney=0;
-            if (moneytag==0){
+            if (moneytag==1){
                 lixiangKuang=document.getElementById("jixiaoLixiangMoney").value;
             }
-            if (moneytag==1){
+            if (moneytag==0){
                 jietiKuang=document.getElementById("jixiaoJietiMoney").value;
-            }
-            for(i=0;i<JixiaoList().length;i++){
-                if (projectBianhao==JixiaoList()[i].projectBianhao){
-                    if (JixiaoList()[i].jixiaoLixiangMoney!=null) {
-                        jixiaoLixiangMoney = jixiaoLixiangMoney + JixiaoList()[i].jixiaoLixiangMoney;
-                    }
-                    if (JixiaoList()[i].jixiaoJietiMoney!=null) {
-                        jixiaoJietiMoney = jixiaoJietiMoney + JixiaoList()[i].jixiaoJietiMoney;
-                    }
-                }
-                else{
-                    continue;
-                }
+                jixiaoLixiangMoney=document.getElementById("jixiaoLixiangMoney").value;
             }
             WeifafangMoney=jixiaoMoney-jixiaoLixiangMoney-jixiaoJietiMoney-lixiangKuang-jietiKuang;
             document.getElementById("jixiaoWeifafang").value= WeifafangMoney;
@@ -274,20 +193,20 @@
             let jixiaoJietiMoney = $("#jixiaoJietiMoney").val();
             let jixiaoWeiFafang = $("#jixiaoWeifafang").val();
             if (jixiaoMoney && jixiaoLixiangMoney && (eval(jixiaoLixiangMoney) > eval(jixiaoMoney))){
-                layer.msg("立项绩效金额>绩效总金额", {icon : 2, time: 1000});
+                layer.msg("立项绩效金额>绩效总金额", {icon : 2, time: 2000});
                 return false;
             }
             if (jixiaoMoney && jixiaoLixiangMoney && jixiaoJietiMoney
                 && (eval(jixiaoMoney) != eval(jixiaoLixiangMoney) + eval(jixiaoJietiMoney))){
-                layer.msg("绩效总金额≠立项+结题", {icon : 2, time: 1000});
+                layer.msg("绩效总金额≠立项+结题", {icon : 2, time: 2000});
                 return false;
             }
             if (jixiaoMoney && jixiaoJietiMoney && (eval(jixiaoJietiMoney) > eval(jixiaoMoney))){
-                layer.msg("结题绩效金额>绩效总金额", {icon : 2, time: 1000});
+                layer.msg("结题绩效金额>绩效总金额", {icon : 2, time: 2000});
                 return false;
             }
             if (jixiaoWeiFafang < 0){
-                layer.msg("绩效未发放金额不能小于0", {icon : 2, time: 1000});
+                layer.msg("绩效未发放金额不能小于0", {icon : 2, time: 2000});
             }
             return true;
         }

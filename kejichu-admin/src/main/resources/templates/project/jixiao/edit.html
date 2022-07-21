@@ -30,7 +30,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">立项绩效发放金额：</label>
                 <div class="col-sm-8">
-                    <input id="jixiaoLixiangMoney" name="jixiaoLixiangMoney" th:field="*{jixiaoLixiangMoney}" class="form-control" type="number">
+                    <input id="jixiaoLixiangMoney" name="jixiaoLixiangMoney" th:field="*{jixiaoLixiangMoney}" class="form-control" type="number" onchange="WeifafangMoney(1)">
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">结题绩效发放金额：</label>
                 <div class="col-sm-8">
-                    <input id="jixiaoJietiMoney" name="jixiaoJietiMoney" th:field="*{jixiaoJietiMoney}" class="form-control" type="number">
+                    <input id="jixiaoJietiMoney" name="jixiaoJietiMoney" th:field="*{jixiaoJietiMoney}" class="form-control" type="number" onchange="WeifafangMoney(0)">
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
@@ -62,7 +62,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">绩效未发放金额：</label>
                 <div class="col-sm-8">
-                    <input id="jixiaoWeifafang" name="jixiaoWeifafang" th:field="*{jixiaoWeifafang}" class="form-control" type="number">
+                    <input id="jixiaoWeifafang" name="jixiaoWeifafang" th:field="*{jixiaoWeifafang}" class="form-control" type="number" readonly=true>
                     <span style=" position: absolute; top: 1%; right: 6%;color: #adadad; display: table-cell;white-space: nowrap; padding: 7px 10px;">￥</span>
                 </div>
             </div>
@@ -99,7 +99,7 @@
         var x = document.querySelectorAll(".form-control");
         var i;
         for (i = 1; i < x.length; i++) {
-            if (i==1||i==2||i==4||i==6){
+            if (i==2||i==3||i==5||i==7){
                 var precapital;
                 x[i].addEventListener('focus', function () {
                     if (this.value == '0.00') {
@@ -135,6 +135,26 @@
                 continue
             }
         };
+
+        function WeifafangMoney(tag){//用户在立项金额/结题金额输入时，系统进行计算，得出未发放金额并打印，小数点保留后两位
+            let projectBianhao=document.getElementById("projectBianhao").value;
+            let jixiaoMoney=document.getElementById("jixiaoMoney").value;
+            let jixiaoLixiangMoney=0;
+            let lixiangKuang=0;
+            let jixiaoJietiMoney=0;
+            let jietiKuang=0;
+            let WeifafangMoney=0;
+            if (tag==1){
+                lixiangKuang=document.getElementById("jixiaoLixiangMoney").value;
+            }
+            if (tag==0) {
+                jietiKuang=document.getElementById("jixiaoJietiMoney").value;
+                jixiaoLixiangMoney=document.getElementById("jixiaoLixiangMoney").value;
+            }
+            WeifafangMoney=jixiaoMoney-jixiaoLixiangMoney-jixiaoJietiMoney-lixiangKuang-jietiKuang;
+
+            document.getElementById("jixiaoWeifafang").value= WeifafangMoney;
+        }
 
         function submitHandler() {
             //判断
@@ -173,12 +193,12 @@
             let jixiaoLixiangMoney = $("#jixiaoLixiangMoney").val();
             let jixiaoJietiMoney = $("#jixiaoJietiMoney").val();
             if (jixiaoMoney && jixiaoLixiangMoney && (eval(jixiaoLixiangMoney) > eval(jixiaoMoney))){
-                layer.msg("立项绩效金额>绩效总金额", {icon : 2, time: 1000});
+                layer.msg("立项绩效金额>绩效总金额", {icon : 2, time: 2000});
                 return false;
             }
             if (jixiaoMoney && jixiaoLixiangMoney && jixiaoJietiMoney
                 && (eval(jixiaoMoney) != eval(jixiaoLixiangMoney) + eval(jixiaoJietiMoney))){
-                layer.msg("绩效总金额≠立项+结题", {icon : 2, time: 1000});
+                layer.msg("绩效总金额≠立项+结题", {icon : 2, time: 2000});
                 return false;
             }
             return true;
