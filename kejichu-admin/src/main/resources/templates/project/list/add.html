@@ -201,11 +201,11 @@
             let waibo=document.getElementById('waibo').value;
             let re=/^[0-9]+.?[0-9]*$/;
             if(!re.test(projectYear)||eval(projectYear)<1900||eval(projectYear)>4000){
-                layer.msg("年份输入错误", {icon : 2, time: 1000});
+                layer.msg("年份输入错误", {icon : 2, time: 2000});
                 return false;
             }
             if (eval(waibo)>eval(projectGrant)){
-                layer.msg("外拨金额必须小于批准经费", {icon : 2, time: 1000});
+                layer.msg("外拨金额必须小于批准经费", {icon : 2, time: 2000});
                 return false;
             }
             return true;
