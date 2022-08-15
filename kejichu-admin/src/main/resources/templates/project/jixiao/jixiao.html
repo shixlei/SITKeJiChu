@@ -20,7 +20,7 @@
                             </li>
                             <li>
                                 <label>绩效总金额：</label>
-                                <input type="text" name="jixiaoMoney"/>
+                                <input type="text" name="projectPerformance"/>
                             </li>
                             <li>
                                 <label>立项绩效发放金额：</label>
@@ -44,11 +44,11 @@
                             </li>
                             <li>
                                 <label>学院：</label>
-                                <input type="text" name="jixiaoAcademy"/>
+                                <input type="text" name="deptName"/>
                             </li>
                             <li>
                                 <label>负责人：</label>
-                                <input type="text" name="jixiaoManager"/>
+                                <input type="text" name="projectLeader"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -120,7 +120,7 @@
                     title: '项目名称'
                 },
                 {
-                    field: 'jixiaoMoney',
+                    field: 'projectPerformance',
                     title: '绩效总金额'
                 },
                 {
@@ -144,14 +144,14 @@
                     title: '绩效未发放金额'
                 },
                 {
-                    field: 'jixiaoAcademy',
+                    field: 'deptName',
                     title: '&nbsp&nbsp学院&nbsp&nbsp',
                     formatter: function(value, row, index) {
                         return $.table.selectDictLabel(jixiaoAcademyDatas, value);
                     }
                 },
                 {
-                    field: '&nbsp&nbspjixiaoManager',
+                    field: '&nbsp&nbspprojectLeader',
                     title: '负责人'
                 },
                 {

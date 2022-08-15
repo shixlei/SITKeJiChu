@@ -31,7 +31,7 @@ public class KjcJixiao extends BaseEntity
 
     /** 绩效总金额 */
     @Excel(name = "绩效总金额")
-    private BigDecimal jixiaoMoney;
+    private BigDecimal projectPerformance;
 
     /** 立项绩效发放金额 */
     @Excel(name = "立项绩效发放金额")
@@ -64,11 +64,11 @@ public class KjcJixiao extends BaseEntity
                     "14=轨道交通学院,15=体育教育部,16=工程创新学院,17=高等职业学院,18=继续教育学院，" +
                     "19=马克思主义学院,20=国际教育中心,21=香料香精化妆品学部（国际化妆品学院）," +
                     "22=香料香精化妆品学部（东方美谷研究院）,23=香料香精化妆品省部共建协同创新中心")
-    private String jixiaoAcademy;
+    private String deptName;
 
     /** 负责人 */
     @Excel(name = "负责人")
-    private String jixiaoManager;
+    private String projectLeader;
 
     /** 备注 */
     @Excel(name = "备注")
@@ -101,14 +101,14 @@ public class KjcJixiao extends BaseEntity
     {
         return projectName;
     }
-    public void setJixiaoMoney(BigDecimal jixiaoMoney) 
+    public void setProjectPerformance(BigDecimal projectPerformance)
     {
-        this.jixiaoMoney = jixiaoMoney;
+        this.projectPerformance = projectPerformance;
     }
 
-    public BigDecimal getJixiaoMoney() 
+    public BigDecimal getProjectPerformance()
     {
-        return jixiaoMoney;
+        return projectPerformance;
     }
     public void setJixiaoLixiangMoney(BigDecimal jixiaoLixiangMoney) 
     {
@@ -155,23 +155,23 @@ public class KjcJixiao extends BaseEntity
     {
         return jixiaoWeifafang;
     }
-    public void setJixiaoAcademy(String jixiaoAcademy)
+    public void setDeptName(String deptName)
     {
-        this.jixiaoAcademy = jixiaoAcademy;
+        this.deptName = deptName;
     }
 
-    public String getJixiaoAcademy()
+    public String getDeptName()
     {
-        return jixiaoAcademy;
+        return deptName;
     }
 
-    public void setJixiaoManager(String jixiaoManager)
+    public void setProjectLeader(String projectLeader)
     {
-        this.jixiaoManager = jixiaoManager;
+        this.projectLeader = projectLeader;
     }
-    public String getJixiaoManager()
+    public String getProjectLeader()
     {
-        return jixiaoManager;
+        return projectLeader;
     }
 
     public void setJixiaoRemark(String jixiaoRemark)
@@ -186,14 +186,14 @@ public class KjcJixiao extends BaseEntity
             .append("jixiaoId", getJixiaoId())
             .append("projectBianhao", getProjectBianhao())
             .append("projectName", getProjectName())
-            .append("jixiaoMoney", getJixiaoMoney())
+            .append("projectPerformance", getProjectPerformance())
             .append("jixiaoLixiangMoney", getJixiaoLixiangMoney())
             .append("jixiaoLixiangDate", getJixiaoLixiangDate())
             .append("jixiaoJietiMoney", getJixiaoJietiMoney())
             .append("jixiaoJietiDate", getJixiaoJietiDate())
             .append("jixiaoWeifafang", getJixiaoWeifafang())
-            .append("jixiaoAcademy", getJixiaoAcademy())
-            .append("jixiaoManager", getJixiaoManager())
+            .append("deptName", getDeptName())
+            .append("projectLeader", getProjectLeader())
             .append("jixiaoRemark", getJixiaoRemark())
             .toString();
     }

@@ -8,19 +8,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="jixiaoId"    column="jixiao_id"    />
         <result property="projectBianhao"    column="project_bianhao"    />
         <result property="projectName"    column="project_name"    />
-        <result property="jixiaoMoney"    column="jixiao_money"    />
+        <result property="projectPerformance"    column="project_performance"    />
         <result property="jixiaoLixiangMoney"    column="jixiao_lixiang_money"    />
         <result property="jixiaoLixiangDate"    column="jixiao_lixiang_date"    />
         <result property="jixiaoJietiMoney"    column="jixiao_jieti_money"    />
         <result property="jixiaoJietiDate"    column="jixiao_jieti_date"    />
         <result property="jixiaoWeifafang"    column="jixiao_weifafang"    />
-        <result property="jixiaoAcademy"    column="jixiao_academy"    />
-        <result property="jixiaoManager"    column="jixiao_manager"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="projectLeader"    column="project_leader"    />
         <result property="jixiaoRemark"    column="jixiao_remark"    />
     </resultMap>
 
     <sql id="selectKjcJixiaoVo">
-        select jixiao_id, project_bianhao,project_name, jixiao_money, jixiao_lixiang_money, jixiao_lixiang_date, jixiao_jieti_money, jixiao_jieti_date, jixiao_weifafang,jixiao_academy,jixiao_manager,jixiao_remark from kjc_jixiao
+        select jixiao_id, project_bianhao,project_name, project_performance, jixiao_lixiang_money, jixiao_lixiang_date, jixiao_jieti_money, jixiao_jieti_date, jixiao_weifafang,dept_name,project_leader,jixiao_remark from kjc_jixiao
     </sql>
 
     <select id="selectKjcJixiaoList" parameterType="KjcJixiao" resultMap="KjcJixiaoResult">
@@ -28,14 +28,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="projectBianhao != null  and projectBianhao != ''"> and project_bianhao like concat('%', #{projectBianhao}, '%')</if>
             <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
-            <if test="jixiaoMoney != null "> and jixiao_money = #{jixiaoMoney}</if>
+            <if test="projectPerformance != null "> and project_performance = #{projectPerformance}</if>
             <if test="jixiaoLixiangMoney != null "> and jixiao_lixiang_money = #{jixiaoLixiangMoney}</if>
             <if test="jixiaoLixiangDate != null "> and jixiao_lixiang_date = #{jixiaoLixiangDate}</if>
             <if test="jixiaoJietiMoney != null "> and jixiao_jieti_money = #{jixiaoJietiMoney}</if>
             <if test="jixiaoJietiDate != null "> and jixiao_jieti_date = #{jixiaoJietiDate}</if>
             <if test="jixiaoWeifafang != null "> and jixiao_weifafang = #{jixiaoWeifafang}</if>
-            <if test="jixiaoAcademy != null  and jixiaoAcademy != ''"> and jixiao_academy = #{jixiaoAcademy}</if>
-            <if test="jixiaoManager != null  and jixiaoManager != ''"> and jixiao_manager = #{jixiaoManager}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name = #{deptName}</if>
+            <if test="projectLeader != null  and projectLeader != ''"> and project_leader = #{projectLeader}</if>
             <if test="jixiaoRemark != null  and jixiaoRemark != ''"> and jixiao_remark = #{jixiaoRemark}</if>
         </where>
         order by  jixiao_lixiang_date desc
@@ -57,27 +57,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="projectBianhao != null and projectBianhao != ''">project_bianhao,</if>
             <if test="projectName != null">project_name,</if>
-            <if test="jixiaoMoney != null">jixiao_money,</if>
+            <if test="projectPerformance != null">project_performance,</if>
             <if test="jixiaoLixiangMoney != null">jixiao_lixiang_money,</if>
             <if test="jixiaoLixiangDate != null">jixiao_lixiang_date,</if>
             <if test="jixiaoJietiMoney != null">jixiao_jieti_money,</if>
             <if test="jixiaoJietiDate != null">jixiao_jieti_date,</if>
             <if test="jixiaoWeifafang != null">jixiao_weifafang,</if>
-            <if test="jixiaoAcademy != null">jixiao_academy,</if>
-            <if test="jixiaoManager != null">jixiao_manager,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="projectLeader != null">project_leader,</if>
             <if test="jixiaoRemark != null">jixiao_remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectBianhao != null and projectBianhao != ''">#{projectBianhao},</if>
             <if test="projectName != null">#{projectName},</if>
-            <if test="jixiaoMoney != null">#{jixiaoMoney},</if>
+            <if test="projectPerformance != null">#{projectPerformance},</if>
             <if test="jixiaoLixiangMoney != null">#{jixiaoLixiangMoney},</if>
             <if test="jixiaoLixiangDate != null">#{jixiaoLixiangDate},</if>
             <if test="jixiaoJietiMoney != null">#{jixiaoJietiMoney},</if>
             <if test="jixiaoJietiDate != null">#{jixiaoJietiDate},</if>
             <if test="jixiaoWeifafang != null">#{jixiaoWeifafang},</if>
-            <if test="jixiaoAcademy != null">#{jixiaoAcademy},</if>
-            <if test="jixiaoManager != null">#{jixiaoManager},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="projectLeader != null">#{projectLeader},</if>
             <if test="jixiaoRemark != null">#{jixiaoRemark},</if>
          </trim>
     </insert>
@@ -87,13 +87,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="projectBianhao != null and projectBianhao != ''">project_bianhao = #{projectBianhao},</if>
             <if test="projectName != null">project_name = #{projectName},</if>
-            <if test="jixiaoMoney != null">jixiao_money = #{jixiaoMoney},</if>
+            <if test="projectPerformance != null">project_performance = #{projectPerformance},</if>
             <if test="jixiaoLixiangMoney != null">jixiao_lixiang_money = #{jixiaoLixiangMoney},</if>
             <if test="jixiaoLixiangDate != null">jixiao_lixiang_date = #{jixiaoLixiangDate},</if>
             <if test="jixiaoJietiMoney != null">jixiao_jieti_money = #{jixiaoJietiMoney},</if>
             <if test="jixiaoJietiDate != null">jixiao_jieti_date = #{jixiaoJietiDate},</if>
             <if test="jixiaoWeifafang != null">jixiao_weifafang = #{jixiaoWeifafang},</if>
-            <if test="jixiaoAcademy != null">jixiao_academy = #{jixiaoAcademy},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
             <if test="jixiaoManager != null">jixiao_manager = #{jixiaoManager},</if>
             <if test="jixiaoRemark != null">jixiao_remark = #{jixiaoRemark},</if>
         </trim>
